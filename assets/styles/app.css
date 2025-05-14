@@ -28,7 +28,6 @@ body {
   border-radius: 0.75rem;
 }
 
-
 .btn {
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
@@ -87,4 +86,55 @@ body {
   border: none;
   border-radius: 0.75rem;
   padding: 1rem 1.5rem;
+}
+
+.categories-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--background-color);
+  border-radius: 0.75rem;
+}
+
+.categories-checkboxes .form-check {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.categories-checkboxes .form-check:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.categories-checkboxes .form-check-input {
+  float: none;
+  margin-right: 0.75rem;
+  margin-top: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.categories-checkboxes .form-check-label {
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+  flex: 1;
+}
+
+.categories-checkboxes .form-check-input:checked + .form-check-label {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.categories-checkboxes .form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
