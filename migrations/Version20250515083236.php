@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250514121337 extends AbstractMigration
+final class Version20250515083236 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,10 +21,13 @@ final class Version20250514121337 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE article (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, content LONGTEXT NOT NULL, created_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            ALTER TABLE article_category DROP FOREIGN KEY FK_53A4EDAA12469DE2
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE article_category (id INT AUTO_INCREMENT NOT NULL, category_id INT DEFAULT NULL, article_id INT DEFAULT NULL, INDEX IDX_53A4EDAA12469DE2 (category_id), INDEX IDX_53A4EDAA7294869C (article_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            ALTER TABLE article_category DROP FOREIGN KEY FK_53A4EDAA7294869C
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE article_category ADD id INT AUTO_INCREMENT NOT NULL, DROP PRIMARY KEY, ADD PRIMARY KEY (id)
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE article_category ADD CONSTRAINT FK_53A4EDAA12469DE2 FOREIGN KEY (category_id) REFERENCES category (id)
@@ -38,16 +41,28 @@ final class Version20250514121337 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
+            ALTER TABLE article_category MODIFY id INT NOT NULL
+        SQL);
+        $this->addSql(<<<'SQL'
             ALTER TABLE article_category DROP FOREIGN KEY FK_53A4EDAA12469DE2
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE article_category DROP FOREIGN KEY FK_53A4EDAA7294869C
         SQL);
         $this->addSql(<<<'SQL'
-            DROP TABLE article
+            DROP INDEX `PRIMARY` ON article_category
         SQL);
         $this->addSql(<<<'SQL'
-            DROP TABLE article_category
+            ALTER TABLE article_category DROP id
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE article_category ADD CONSTRAINT FK_53A4EDAA12469DE2 FOREIGN KEY (category_id) REFERENCES category (id) ON UPDATE NO ACTION ON DELETE CASCADE
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE article_category ADD CONSTRAINT FK_53A4EDAA7294869C FOREIGN KEY (article_id) REFERENCES article (id) ON UPDATE NO ACTION ON DELETE CASCADE
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE article_category ADD PRIMARY KEY (article_id, category_id)
         SQL);
     }
 }

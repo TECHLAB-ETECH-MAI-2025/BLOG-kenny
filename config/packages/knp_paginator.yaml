@@ -1,0 +1,11 @@
+knp_paginator:
+  page_range: 5 # nombre de liens affichés dans la pagination (ex: 1 ... 2 3 4 5 6 ... 10)
+  default_options:
+    page_name: page # nom du paramètre de page dans l'URL
+    sort_field_name: sort # nom du paramètre de tri dans l'URL
+    sort_direction_name: direction # nom du paramètre de direction dans l'URL
+    distinct: true # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    page_out_of_range: ignore # if page number exceeds max, show last page
+  template:
+    pagination: "pagination/custom_pagination.html.twig"
+    sortable: "pagination/custom_pagination.html.twig"
