@@ -6,7 +6,6 @@ use App\Repository\ArticleCategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleCategoryRepository::class)]
-#[ORM\Table(name: 'article_category')]
 class ArticleCategory
 {
     #[ORM\Id]
@@ -14,12 +13,10 @@ class ArticleCategory
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne]
     private ?Category $category = null;
 
     #[ORM\ManyToOne(inversedBy: 'categories')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Article $article = null;
 
     public function getId(): ?int

@@ -25,7 +25,7 @@ class Article
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'articles')]
+    #[ORM\ManyToMany(targetEntity: Category::class)]
     private Collection $categories;
 
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article')]
