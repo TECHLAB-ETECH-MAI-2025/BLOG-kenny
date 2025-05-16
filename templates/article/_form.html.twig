@@ -1,26 +1,39 @@
 {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                {% for field in form %}
-                    {% if not field.rendered and field.vars.name != '_token' %}
-                        <div class="col-md-12 mb-3">
-                            {{ form_label(field) }}
-                            {{ form_widget(field) }}
-                            {{ form_errors(field) }}
-                            {% if field.vars.help is defined and field.vars.help is not empty %}
-                                <small class="form-text text-muted">{{ field.vars.help }}</small>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
+    <div class="mb-3">
+        {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.title, {'attr': {
+            'class': 'form-control',
+            'placeholder': 'Entrez le titre de l\'article'
+        }}) }}
+        {{ form_errors(form.title, {'attr': {'class': 'invalid-feedback'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.content, 'Contenu', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.content, {'attr': {
+            'class': 'form-control',
+            'rows': '10',
+            'placeholder': 'Rédigez votre article ici'
+        }}) }}
+        {{ form_errors(form.content, {'attr': {'class': 'invalid-feedback'}}) }}
+    </div>
+
+    <div class="mb-4">
+        {{ form_label(form.categories, 'Catégories', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.categories) }}
+        {{ form_errors(form.categories, {'attr': {'class': 'invalid-feedback'}}) }}
+        <div class="form-text">
+            <i class="fas fa-info-circle me-1"></i>
+            Vous pouvez sélectionner plusieurs catégories
         </div>
-        <div class="card-footer bg-transparent text-end">
-            <button class="btn btn-primary">
-                <i class="fas {% if app.request.get('_route') ends with '_edit' %}fa-save{% else %}fa-plus{% endif %} me-1"></i>
-                {{ button_label|default('Enregistrer') }}
-            </button>
-        </div>
+    </div>
+
+    <div class="text-end">
+        <a href="{{ path('app_article_index') }}" class="btn btn-outline-secondary me-2">
+            <i class="fas fa-times me-1"></i>Annuler
+        </a>
+        <button class="btn btn-primary">
+            <i class="fas fa-save me-1"></i>{{ button_label|default('Enregistrer') }}
+        </button>
     </div>
 {{ form_end(form) }}

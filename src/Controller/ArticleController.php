@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\ArticleForm;
+use App\Form\CommentForm;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,21 +17,51 @@ use Knp\Component\Pager\PaginatorInterface;
 #[Route('/article')]
 class ArticleController extends AbstractController
 {
-    #[Route(name: 'app_article_index', methods: ['GET'])]
-    public function index(Request $request, ArticleRepository $articleRepository, PaginatorInterface $paginator): Response
+    #[Route(name: 'app_article_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, ArticleRepository $articleRepository, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
         $query = $articleRepository->createQueryBuilder('a')
+            ->leftJoin('a.comments', 'c')
+            ->addSelect('c')
+            ->leftJoin('a.categories', 'cat')
+            ->addSelect('cat')
             ->orderBy('a.createdAt', 'DESC')
             ->getQuery();
 
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
-            6 // Nombre d'articles par page
+             6
         );
+
+        // Création d'un nouveau commentaire si nécessaire
+        if ($articleId = $request->request->get('article_id')) {
+            $article = $articleRepository->find($articleId);
+            if ($article) {
+                $comment = new Comment();
+                $comment->setArticle($article);
+                $comment->setCreatedAt(new \DateTimeImmutable());
+                $comment->setAuthor($request->request->get('author'));
+                $comment->setContent($request->request->get('content'));
+                
+                $entityManager->persist($comment);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Votre commentaire a été ajouté avec succès !');
+                return $this->redirectToRoute('app_article_index', ['_fragment' => 'article-' . $articleId]);
+            }
+        }
+
+        // Création d'un article
+        $article = new Article();
+        $articleForm = $this->createForm(ArticleForm::class, $article, [
+            'action' => $this->generateUrl('app_article_new'),
+            'method' => 'POST',
+        ]);
 
         return $this->render('article/index.html.twig', [
             'articles' => $pagination,
+            'article_form' => $articleForm,
         ]);
     }
 

@@ -17,7 +17,7 @@ class ArticleForm extends AbstractType
             ->add('title', null, [
                 'label' => 'Titre',
                 'attr' => [
-                    'class' => 'form-control form-control-lg',
+                    'class' => 'form-control',
                     'placeholder' => 'Entrez le titre de l\'article'
                 ]
             ])
@@ -26,24 +26,19 @@ class ArticleForm extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Rédigez votre article ici',
-                    'rows' => 10,
-                    'style' => 'resize: vertical;'
+                    'rows' => 10
                 ]
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'multiple' => true,
-                'expanded' => true,
+                'expanded' => false,
                 'label' => 'Catégories',
-                'label_attr' => [
-                    'class' => 'fw-bold mb-3'
-                ],
-                'choice_attr' => function() {
-                    return ['class' => 'form-check-input'];
-                },
                 'attr' => [
-                    'class' => 'categories-checkboxes'
+                    'class' => 'form-select select2',
+                    'data-placeholder' => 'Sélectionnez les catégories...',
+                    'multiple' => 'multiple'
                 ],
                 'by_reference' => false,
             ])
