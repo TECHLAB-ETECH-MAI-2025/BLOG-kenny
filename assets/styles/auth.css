@@ -1,0 +1,172 @@
+/* Styles pour l'authentification */
+.auth-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+  padding: 2rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.auth-logo h1 {
+  font-size: 2.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.registration-card {
+  background: rgba(255, 255, 255, 0.98);
+  border: none !important;
+  border-radius: 1.5rem !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(10px);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.registration-card .card-body {
+  padding: 2.5rem !important;
+}
+
+.registration-form .form-control,
+.registration-form input[type="email"],
+.registration-form input[type="password"],
+.registration-form input[type="text"] {
+  padding: 0.875rem 1.25rem !important;
+  border-radius: 0.75rem !important;
+  border: 2px solid #e2e8f0 !important;
+  background-color: #f8fafc !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.registration-form .form-control:focus,
+.registration-form input[type="email"]:focus,
+.registration-form input[type="password"]:focus,
+.registration-form input[type="text"]:focus,
+.registration-form .input-group-text {
+  background-color: #f8fafc !important;
+  border: 2px solid #e2e8f0 !important;
+  border-right: none !important;
+  color: #64748b !important;
+  padding: 0.875rem 1rem !important;
+}
+
+.registration-form .input-group .form-control {
+  border-left: none !important;
+}
+
+.registration-form .input-group .input-group-text + .form-control:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+  background-color: #fff !important;
+}
+
+.registration-form label {
+  font-weight: 600 !important;
+  color: #1e293b !important;
+  font-size: 0.95rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.registration-form .form-check-input {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 0.375rem !important;
+  cursor: pointer;
+}
+
+.registration-form .form-check-input:checked {
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+.registration-form .form-check-label {
+  color: #475569 !important;
+  cursor: pointer;
+}
+
+.registration-form .btn-primary {
+  background: linear-gradient(to right, #3b82f6, #6366f1) !important;
+  border: none !important;
+  padding: 1rem 2rem !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.registration-form .btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Messages d'erreur */
+.alert {
+  border-radius: 0.75rem !important;
+  border: none !important;
+  padding: 1rem 1.25rem !important;
+}
+
+.alert-danger {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+.alert-info {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}
+
+.alert-info .alert-link {
+  color: #0284c7 !important;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.alert-info .alert-link:hover {
+  text-decoration: underline;
+}
+
+/* Liens */
+.text-primary {
+  color: #3b82f6 !important;
+}
+
+.text-primary:hover {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+}
+
+/* Input groups */
+.registration-form .input-group {
+  position: relative;
+}
+
+.registration-form .input-group .input-group-text {
+  border-radius: 0.75rem 0 0 0.75rem !important;
+}
+
+.registration-form .input-group .form-control {
+  border-radius: 0 0.75rem 0.75rem 0 !important;
+}
+
+.registration-form .input-group:focus-within .input-group-text {
+  border-color: #3b82f6 !important;
+  color: #3b82f6 !important;
+}

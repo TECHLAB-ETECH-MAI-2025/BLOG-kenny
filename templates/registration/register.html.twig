@@ -1,0 +1,81 @@
+{% extends 'auth_base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<div class="auth-wrapper">
+    <div class="container">
+        <div class="auth-logo text-center mb-4">
+            <h1 class="text-white display-4 mb-0">Blog Kenny</h1>
+        </div>
+        <div class="card registration-card fade-in mx-auto">
+            <div class="card-body">
+                    <div class="text-center mb-4">
+                        <h1 class="h2 fw-bold text-primary">Créer un compte</h1>
+                        <p class="text-muted">Rejoignez notre communauté dès aujourd'hui</p>
+                    </div>
+
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <div>{{ flash_error }}</div>
+                        </div>
+                    {% endfor %}
+
+                    {{ form_errors(registrationForm) }}
+
+                    {{ form_start(registrationForm, {'attr': {'class': 'registration-form'}}) }}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(registrationForm.firstName, {
+                                    'label': 'Prénom',
+                                    'attr': {'placeholder': 'Votre prénom'}
+                                }) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(registrationForm.lastName, {
+                                    'label': 'Nom',
+                                    'attr': {'placeholder': 'Votre nom'}
+                                }) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.email, {
+                                'label': 'Adresse email',
+                                'attr': {'placeholder': 'exemple@email.com'}
+                            }) }}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form_row(registrationForm.plainPassword, {
+                                'label': 'Mot de passe',
+                                'attr': {'placeholder': 'Choisissez un mot de passe sécurisé'}
+                            }) }}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form_row(registrationForm.agreeTerms, {
+                                'label': 'J\'accepte les conditions d\'utilisation'
+                            }) }}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>S'inscrire
+                            </button>
+                        </div>
+                    {{ form_end(registrationForm) }}
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted">
+                            Déjà inscrit ? 
+                            <a href="{{ path('app_login') }}" class="text-primary text-decoration-none fw-semibold">Connectez-vous</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
