@@ -1,0 +1,83 @@
+{% extends 'auth_base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div class="auth-wrapper">
+    <div class="container">
+        <div class="auth-logo text-center mb-4">
+            <h1 class="text-white display-4 mb-0">Blog Kenny</h1>
+        </div>
+        <div class="card registration-card fade-in mx-auto">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <h1 class="h2 fw-bold text-primary">Connexion</h1>
+                    <p class="text-muted">Bienvenue ! Connectez-vous à votre compte</p>
+                </div>
+
+                {% if error %}
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    </div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="alert alert-info d-flex align-items-center">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <div>
+                            Vous êtes connecté en tant que {{ app.user.userIdentifier }}, 
+                            <a href="{{ path('app_logout') }}" class="alert-link">Se déconnecter</a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <form method="post" class="registration-form">
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label">Adresse email</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" 
+                                class="form-control" autocomplete="email" required autofocus
+                                placeholder="exemple@email.com">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="inputPassword" class="form-label">Mot de passe</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" name="password" id="inputPassword" 
+                                class="form-control" autocomplete="current-password" required
+                                placeholder="Votre mot de passe">
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" 
+                        data-controller="csrf-protection" 
+                        value="{{ csrf_token('authenticate') }}">
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-lg" type="submit">
+                            <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted">
+                            Pas encore de compte ? 
+                            <a href="{{ path('app_register') }}" class="text-primary text-decoration-none fw-semibold">
+                                Inscrivez-vous
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
