@@ -1,90 +1,340 @@
+/* Variables globales */
 :root {
   --primary-color: #2563eb;
   --secondary-color: #475569;
-  --accent-color: #3b82f6;
   --background-color: #f8fafc;
-  --text-color: #334155;
+  --text-color: #1e293b;
+  --border-color: #e2e8f0;
 }
 
+/* Styles de base */
 body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
 }
 
+/* Navigation */
 .navbar {
   background-color: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .navbar-brand {
   font-weight: 600;
+  color: var(--primary-color) !important;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: var(--secondary-color) !important;
+  transition: color 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color) !important;
+}
+
+/* Cards */
+.card {
+  border: none !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 0.75rem !important;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour la page de vérification d'email */
+.verification-card {
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.verification-card:hover {
+  transform: translateY(-5px);
+}
+
+.verification-card .email-icon {
+  color: var(--primary-color);
+  opacity: 0.9;
+}
+
+.verification-card .card-title {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.verification-card .card-text {
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+}
+
+.verification-card .alert {
+  border-radius: 0.75rem;
+  background-color: rgba(37, 99, 235, 0.1);
+  border: none;
   color: var(--primary-color);
 }
 
-.card {
-  border: none;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  border-radius: 0.75rem;
+/* Formulaires */
+.form-control,
+.form-select {
+  border: 2px solid var(--border-color) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.8rem 1rem !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) !important;
 }
 
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+  outline: none !important;
+}
 
+textarea.form-control {
+  min-height: 120px !important;
+  line-height: 1.6 !important;
+}
+
+.form-label {
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  color: var(--secondary-color) !important;
+  margin-bottom: 0.5rem !important;
+  display: block !important;
+}
+
+/* Styles spécifiques au formulaire de catégorie */
+.category-form .form-control {
+  height: 3.5rem !important;
+  font-size: 1.1rem !important;
+}
+
+.category-form .form-label {
+  color: var(--primary-color) !important;
+  font-size: 1.1rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.category-form .form-text {
+  margin-top: 0.5rem !important;
+  color: var(--secondary-color) !important;
+  font-style: italic !important;
+}
+
+.category-form .card {
+  max-width: 600px !important;
+  margin: 0 auto !important;
+  background-color: #ffffff !important;
+}
+
+/* Styles pour le formulaire d'inscription */
+.registration-card {
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+  border-radius: 1.5rem !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.registration-card .card-body {
+  padding: 3rem 2rem !important;
+}
+
+.registration-form label {
+  font-weight: 600 !important;
+  color: var(--secondary-color) !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.registration-form .form-control {
+  padding: 0.8rem 1.2rem !important;
+  border-radius: 0.75rem !important;
+  border: 2px solid var(--border-color) !important;
+  background-color: #ffffff !important;
+  transition: all 0.3s ease !important;
+}
+
+.registration-form .form-control:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+}
+
+.registration-form .form-check {
+  padding-left: 2rem !important;
+}
+
+.registration-form .form-check-input {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  margin-left: -2rem !important;
+  border: 2px solid var(--border-color) !important;
+}
+
+.registration-form .form-check-input:checked {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.registration-form .btn-primary {
+  padding: 1rem 2rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-size: 1rem !important;
+}
+
+/* Boutons */
 .btn {
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  font-weight: 500 !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.2s !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-size: 0.9rem !important;
 }
 
 .btn-primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 
 .btn-primary:hover {
-  background-color: var(--accent-color);
-  border-color: var(--accent-color);
-  transform: translateY(-1px);
+  background-color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+  transform: translateY(-1px) !important;
 }
 
-.table {
-  background-color: white;
-  border-radius: 0.75rem;
-  overflow: hidden;
-}
-
-.table thead th {
-  background-color: var(--background-color);
-  border-bottom: 2px solid #e2e8f0;
-  color: var(--secondary-color);
-  font-weight: 600;
-}
-
-.btn-group .btn {
-  border-radius: 0.5rem;
-  margin: 0 0.125rem;
-}
-
-.form-control {
-  border-radius: 0.5rem;
-  border: 1px solid #e2e8f0;
-  padding: 0.75rem 1rem;
-}
-
-.form-control:focus {
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-}
-
-.page-header {
-  margin-bottom: 2rem;
-  padding: 2rem 0;
-  background-color: white;
-  border-bottom: 1px solid #e2e8f0;
-}
-
+/* Alerts */
 .alert {
-  border: none;
-  border-radius: 0.75rem;
-  padding: 1rem 1.5rem;
+  border: none !important;
+  border-radius: 0.75rem !important;
+  font-weight: 500 !important;
+  padding: 1rem 1.5rem !important;
+}
+
+.alert-success {
+  background-color: #dcfce7 !important;
+  color: #166534 !important;
+}
+
+.alert-danger {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+/* Tables */
+.table {
+  border-radius: 0.75rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+.table thead {
+  background-color: #f1f5f9 !important;
+}
+
+.table th {
+  font-weight: 600 !important;
+  color: var(--secondary-color) !important;
+  text-transform: uppercase !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Footer */
+.footer {
+  background-color: white !important;
+  border-top: 1px solid var(--border-color) !important;
+  padding: 2rem 0 !important;
+  margin-top: 4rem !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Espacement */
+.card-body {
+  padding: 2rem !important;
+}
+
+.card-footer {
+  padding: 1.5rem 2rem !important;
+  background-color: #f8fafc !important;
+  border-top: 1px solid var(--border-color) !important;
+}
+
+/* Styles de pagination */
+.pagination-wrapper {
+  margin: 2rem 0;
+}
+
+.pagination-custom {
+  gap: 0.5rem;
+}
+
+.pagination-custom .page-item {
+  margin: 0;
+}
+
+.pagination-custom .page-link {
+  color: var(--secondary-color);
+  background-color: white;
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem !important;
+  transition: all 0.2s ease;
+  margin: 0;
+  min-width: 42px;
+  text-align: center;
+}
+
+.pagination-custom .page-link:hover {
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-custom .page-item.active .page-link {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.pagination-custom .page-item.disabled .page-link {
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+  color: #6c757d;
+  pointer-events: none;
 }

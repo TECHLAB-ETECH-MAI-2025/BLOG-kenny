@@ -1,0 +1,26 @@
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                {% for field in form %}
+                    {% if not field.rendered and field.vars.name != '_token' %}
+                        <div class="col-md-12 mb-3">
+                            {{ form_label(field) }}
+                            {{ form_widget(field) }}
+                            {{ form_errors(field) }}
+                            {% if field.vars.help is defined and field.vars.help is not empty %}
+                                <small class="form-text text-muted">{{ field.vars.help }}</small>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card-footer bg-transparent text-end">
+            <button class="btn btn-primary">
+                <i class="fas {% if app.request.get('_route') ends with '_edit' %}fa-save{% else %}fa-plus{% endif %} me-1"></i>
+                {{ button_label|default('Enregistrer') }}
+            </button>
+        </div>
+    </div>
+{{ form_end(form) }}
