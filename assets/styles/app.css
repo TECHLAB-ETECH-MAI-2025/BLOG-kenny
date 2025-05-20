@@ -51,6 +51,42 @@ body {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+/* Styles pour la page de vérification d'email */
+.verification-card {
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.verification-card:hover {
+  transform: translateY(-5px);
+}
+
+.verification-card .email-icon {
+  color: var(--primary-color);
+  opacity: 0.9;
+}
+
+.verification-card .card-title {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.verification-card .card-text {
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+}
+
+.verification-card .alert {
+  border-radius: 0.75rem;
+  background-color: rgba(37, 99, 235, 0.1);
+  border: none;
+  color: var(--primary-color);
+}
+
 /* Formulaires */
 .form-control,
 .form-select {
@@ -105,6 +141,60 @@ textarea.form-control {
   max-width: 600px !important;
   margin: 0 auto !important;
   background-color: #ffffff !important;
+}
+
+/* Styles pour le formulaire d'inscription */
+.registration-card {
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+  border-radius: 1.5rem !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.registration-card .card-body {
+  padding: 3rem 2rem !important;
+}
+
+.registration-form label {
+  font-weight: 600 !important;
+  color: var(--secondary-color) !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.registration-form .form-control {
+  padding: 0.8rem 1.2rem !important;
+  border-radius: 0.75rem !important;
+  border: 2px solid var(--border-color) !important;
+  background-color: #ffffff !important;
+  transition: all 0.3s ease !important;
+}
+
+.registration-form .form-control:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+}
+
+.registration-form .form-check {
+  padding-left: 2rem !important;
+}
+
+.registration-form .form-check-input {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  margin-left: -2rem !important;
+  border: 2px solid var(--border-color) !important;
+}
+
+.registration-form .form-check-input:checked {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.registration-form .btn-primary {
+  padding: 1rem 2rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-size: 1rem !important;
 }
 
 /* Boutons */
