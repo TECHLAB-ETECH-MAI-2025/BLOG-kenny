@@ -1,3 +1,6 @@
+@import './forms.css';
+@import './blog.css';
+
 /* Variables globales */
 :root {
   --primary-color: #2563eb;

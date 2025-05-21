@@ -1,39 +1,26 @@
-{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
-    <div class="mb-3">
-        {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.title, {'attr': {
-            'class': 'form-control',
-            'placeholder': 'Entrez le titre de l\'article'
-        }}) }}
-        {{ form_errors(form.title, {'attr': {'class': 'invalid-feedback'}}) }}
+{{ form_start(form, {'attr': {'class': 'form-container'}}) }}
+    <h2 class="form-title">{{ title|default('Article') }}</h2>
+
+    <div class="form-group">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.title) }}
     </div>
 
-    <div class="mb-3">
-        {{ form_label(form.content, 'Contenu', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.content, {'attr': {
-            'class': 'form-control',
-            'rows': '10',
-            'placeholder': 'Rédigez votre article ici'
-        }}) }}
-        {{ form_errors(form.content, {'attr': {'class': 'invalid-feedback'}}) }}
+    <div class="form-group">
+        {{ form_label(form.content) }}
+        {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.content) }}
     </div>
 
-    <div class="mb-4">
-        {{ form_label(form.categories, 'Catégories', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.categories) }}
-        {{ form_errors(form.categories, {'attr': {'class': 'invalid-feedback'}}) }}
-        <div class="form-text">
-            <i class="fas fa-info-circle me-1"></i>
-            Vous pouvez sélectionner plusieurs catégories
-        </div>
+    <div class="form-group">
+        {{ form_label(form.categories) }}
+        {{ form_widget(form.categories, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.categories) }}
     </div>
 
-    <div class="text-end">
-        <a href="{{ path('app_article_index') }}" class="btn btn-outline-secondary me-2">
-            <i class="fas fa-times me-1"></i>Annuler
-        </a>
-        <button class="btn btn-primary">
-            <i class="fas fa-save me-1"></i>{{ button_label|default('Enregistrer') }}
-        </button>
+    <div class="form-actions mt-4">
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        <a href="{{ path('app_article_index') }}" class="btn btn-outline-secondary">Annuler</a>
     </div>
 {{ form_end(form) }}

@@ -18,23 +18,18 @@ class CategoryForm extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom de la catégorie',
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Entrez le nom de la catégorie',
-                    'maxlength' => 255,
-                    'autocomplete' => 'off'
+                    'class' => 'form-control'
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Le nom de la catégorie ne peut pas être vide'
-                    ]),
+                    new NotBlank(['message' => 'Le nom de la catégorie ne peut pas être vide']),
                     new Length([
                         'min' => 2,
                         'max' => 255,
-                        'minMessage' => 'Le nom doit faire au moins {{ limit }} caractères',
+                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
                         'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères'
                     ])
-                ],
-                'help' => 'Le nom de la catégorie doit être unique et avoir entre 2 et 255 caractères'
+                ]
             ])
         ;
     }
