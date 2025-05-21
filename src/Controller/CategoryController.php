@@ -12,9 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Knp\Component\Pager\PaginatorInterface;
 
-#[Route('/category')]
+#[Route('/admin/category')]
 final class CategoryController extends AbstractController
 {
+    public function __construct()
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+    }
+
     #[Route(name: 'app_category_index', methods: ['GET'])]
     public function index(Request $request, CategoryRepository $categoryRepository, PaginatorInterface $paginator): Response
     {

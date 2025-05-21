@@ -1,5 +1,5 @@
-@import './forms.css';
-@import './blog.css';
+@import "./forms.css";
+@import "./blog.css";
 
 /* Variables globales */
 :root {
@@ -21,7 +21,7 @@ body {
 /* Navigation */
 .navbar {
   background-color: white;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-brand {
@@ -38,6 +38,43 @@ body {
 .nav-link:hover,
 .nav-link.active {
   color: var(--primary-color) !important;
+  font-weight: 500;
+}
+
+.avatar-mini {
+  width: 32px;
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item i {
+  width: 1.25rem;
+  text-align: center;
+}
+
+.dropdown-item:active {
+  background-color: #0d6efd;
+}
+
+.dropdown-item.text-danger:active {
+  background-color: #dc3545;
+  color: white !important;
 }
 
 /* Cards */

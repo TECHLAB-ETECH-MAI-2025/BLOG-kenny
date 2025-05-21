@@ -1,0 +1,61 @@
+.article-content {
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.comment-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.sticky-top {
+  z-index: 100;
+}
+
+.breadcrumb {
+  margin-bottom: 0;
+}
+
+.page-header {
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  border-bottom: 1px solid #dee2e6;
+}
+
+dt {
+  color: #6c757d;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+dd {
+  margin-bottom: 0.5rem;
+}
+
+/* Style pour la pagination */
+.pagination {
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.pagination .page-link {
+  color: #0d6efd;
+}
+
+/* Style pour les badges */
+.badge {
+  font-weight: 500;
+  padding: 0.5em 0.8em;
+}
