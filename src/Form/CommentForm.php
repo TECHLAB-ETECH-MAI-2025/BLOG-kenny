@@ -4,10 +4,10 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -17,33 +17,29 @@ class CommentForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('article', EntityType::class, [
+        // 👉 On affiche le champ article seulement si l'option select_article est vraie
+        if ($options['select_article']) {
+            $builder->add('article', EntityType::class, [
                 'class' => Article::class,
                 'choice_label' => 'title',
                 'label' => 'Article',
-                'attr' => [
-                    'class' => 'form-control'
-                ],
+                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez sélectionner un article'])
                 ]
-            ])
-            ->add('author', TextType::class, [
+            ]);
+        }
+
+        $builder
+            ->add('author', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => function (User $user) {
+                    return $user->getFirstName() . ' ' . $user->getLastName();
+                },
+                'disabled' => true,
                 'label' => 'Auteur',
-                'attr' => [
-                    'placeholder' => 'Votre nom',
-                    'class' => 'form-control'
-                ],
-                'constraints' => [
-                    new NotBlank(['message' => 'Le nom de l\'auteur ne peut pas être vide']),
-                    new Length([
-                        'min' => 2,
-                        'max' => 255,
-                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
-                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères'
-                    ])
-                ]
+                'attr' => ['class' => 'form-control'],
+                'required' => false
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Commentaire',
@@ -59,14 +55,17 @@ class CommentForm extends AbstractType
                         'minMessage' => 'Le commentaire doit contenir au moins {{ limit }} caractères'
                     ])
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'comment_form',
+            'select_article' => true, // 👈 option personnalisée avec valeur par défaut
         ]);
     }
 }

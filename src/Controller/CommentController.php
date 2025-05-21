@@ -38,6 +38,7 @@ class CommentController extends AbstractController
     {
         $comment = new Comment();
         $comment->setCreatedAt(new \DateTimeImmutable());
+        $comment->setAuthor($this->getUser());
         
         $form = $this->createForm(CommentForm::class, $comment);
         $form->handleRequest($request);
@@ -71,10 +72,10 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setUpdatedBy($this->getUser());
             $entityManager->flush();
 
-            $this->addFlash('success', 'Commentaire modifié avec succès');
-            return $this->redirectToRoute('app_comment_index');
+            return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('comment/edit.html.twig', [
