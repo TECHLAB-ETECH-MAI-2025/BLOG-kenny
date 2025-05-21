@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    <div class="page-header bg-light py-4 mb-4">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item"><a href="{{ path('app_blog') }}">Blog</a></li>
+                            <li class="breadcrumb-item active">Article</li>
+                        </ol>
+                    </nav>
+                    <h1 class="h2 mb-0">{{ article.title }}</h1>
+                </div>
+                <a href="{{ path('app_blog') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>
+                    Retour au blog
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <article class="bg-white p-4 rounded shadow-sm mb-4">
+                    {% if article.categories|length > 0 %}
+                        <div class="mb-3">
+                            {% for category in article.categories %}
+                                <span class="badge bg-secondary me-1">{{ category.name }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <div class="text-muted small mb-4">
+                        <i class="fas fa-clock me-1"></i>
+                        Publié le {{ article.createdAt|date('d/m/Y à H:i') }}
+                    </div>
+
+                    <div class="article-content mb-4">
+                        {{ article.content|nl2br }}
+                    </div>
+                </article>
+
+                <section id="comments" class="mb-4">
+                    <h3 class="h4 mb-4">
+                        <i class="fas fa-comments me-2"></i>
+                        Commentaires ({{ article.comments|length }})
+                    </h3>
+
+                    {% if article.comments|length > 0 %}
+                        <div class="comment-list">
+                            {% for comment in article.comments %}
+                                <div class="comment bg-white p-3 rounded shadow-sm mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <strong>{{ comment.author }}</strong>
+                                        <small class="text-muted">
+                                            {{ comment.createdAt|date('d/m/Y H:i') }}
+                                        </small>
+                                    </div>
+                                    <p class="mb-0">{{ comment.content|nl2br }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Aucun commentaire pour le moment.</p>
+                    {% endif %}
+                </section>
+
+                <section id="add-comment" class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="h5 mb-3">Ajouter un commentaire</h4>
+                    {{ form_start(commentForm) }}
+                        <div class="mb-3">
+                            {{ form_row(commentForm.author) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(commentForm.content) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane me-1"></i>
+                            Publier le commentaire
+                        </button>
+                    {{ form_end(commentForm) }}
+                </section>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="bg-white p-4 rounded shadow-sm sticky-top" style="top: 2rem;">
+                    <h4 class="h5 mb-3">À propos de l'article</h4>
+                    <dl>
+                        <dt>Date de publication</dt>
+                        <dd>{{ article.createdAt|date('d/m/Y') }}</dd>
+                        
+                        <dt>Catégories</dt>
+                        <dd>
+                            {% if article.categories|length > 0 %}
+                                {% for category in article.categories %}
+                                    <span class="badge bg-secondary">{{ category.name }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="text-muted">Aucune catégorie</span>
+                            {% endif %}
+                        </dd>
+
+                        <dt>Commentaires</dt>
+                        <dd>{{ article.comments|length }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
