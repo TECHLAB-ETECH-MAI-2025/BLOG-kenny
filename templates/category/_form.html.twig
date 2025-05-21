@@ -1,26 +1,14 @@
-{{ form_start(form, {'attr': {'class': 'needs-validation category-form', 'novalidate': 'novalidate'}}) }}
-<div class="card">
-    <div class="card-body">
-        <div class="row">
-            {% for field in form %}
-                {% if not field.rendered and field.vars.name != '_token' %}
-                    <div class="col-md-12 mb-3">
-                        {{ form_label(field) }}
-                        {{ form_widget(field) }}
-                        {{ form_errors(field) }}
-                        {% if field.vars.help is defined and field.vars.help is not empty %}
-                            <small class="form-text text-muted">{{ field.vars.help }}</small>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
+{{ form_start(form, {'attr': {'class': 'form-container'}}) }}
+    <h2 class="form-title">{{ title|default('Catégorie') }}</h2>
+
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.name) }}
     </div>
-    <div class="card-footer bg-transparent text-end">
-        <button class="btn btn-primary">
-            <i class="fas {% if app.request.get('_route') ends with '_edit' %}fa-save{% else %}fa-plus{% endif %} me-1"></i>
-            {{ button_label|default('Enregistrer') }}
-        </button>
+
+    <div class="form-actions mt-4">
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        <a href="{{ path('app_category_index') }}" class="btn btn-outline-secondary">Annuler</a>
     </div>
-</div>
 {{ form_end(form) }}
