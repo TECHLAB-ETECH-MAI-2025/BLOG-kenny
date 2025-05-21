@@ -1,26 +1,26 @@
-{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                {% for field in form %}
-                    {% if not field.rendered and field.vars.name != '_token' %}
-                        <div class="col-md-12 mb-3">
-                            {{ form_label(field) }}
-                            {{ form_widget(field) }}
-                            {{ form_errors(field) }}
-                            {% if field.vars.help is defined and field.vars.help is not empty %}
-                                <small class="form-text text-muted">{{ field.vars.help }}</small>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="card-footer bg-transparent text-end">
-            <button class="btn btn-primary">
-                <i class="fas {% if app.request.get('_route') ends with '_edit' %}fa-save{% else %}fa-plus{% endif %} me-1"></i>
-                {{ button_label|default('Enregistrer') }}
-            </button>
-        </div>
+{{ form_start(form, {'attr': {'class': 'form-container'}}) }}
+    <h2 class="form-title">{{ title|default('Commentaire') }}</h2>
+
+    <div class="form-group">
+        {{ form_label(form.article) }}
+        {{ form_widget(form.article, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.article) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.author) }}
+        {{ form_widget(form.author, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.author) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.content) }}
+        {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.content) }}
+    </div>
+
+    <div class="form-actions mt-4">
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        <a href="{{ path('app_comment_index') }}" class="btn btn-outline-secondary">Annuler</a>
     </div>
 {{ form_end(form) }}
