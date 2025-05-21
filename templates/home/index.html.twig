@@ -1,0 +1,183 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <!-- Hero Section -->
+    <section class="hero position-relative py-6">
+        <div class="container position-relative z-2">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <span class="badge bg-primary-soft mb-3">Blog Kenny</span>
+                    <h1 class="display-5 fw-bold mb-4">Explorez, Apprenez, Partagez</h1>
+                    <p class="lead text-dark-soft mb-5">Un espace dédié au partage de connaissances et à l'échange d'idées. Rejoignez notre communauté et participez à la discussion.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        {% if not app.user %}
+                            <a href="{{ path('app_register') }}" class="btn btn-primary">
+                                Commencer l'aventure
+                            </a>
+                            <a href="{{ path('app_login') }}" class="btn btn-outline-primary">
+                                Se connecter
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_blog') }}" class="btn btn-primary">
+                                Découvrir les articles
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                    <div class="position-relative">
+                        <div class="bg-primary opacity-10 position-absolute top-0 end-0 bottom-0 start-0 rounded-4"></div>
+                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&q=80"
+                             alt="Blog Illustration"
+                             class="img-fluid rounded-4 shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Articles Section -->
+    <section class="py-6 bg-light">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-6 text-center">
+                    <h2 class="mb-3">Articles Récents</h2>
+                    <p class="text-dark-soft">Découvrez nos dernières publications et restez informé des nouveautés.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                {% for article in latest_articles %}
+                    <div class="col-md-4">
+                        <article class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                {% if article.categories|length > 0 %}
+                                    <div class="mb-3">
+                                        {% for category in article.categories %}
+                                            <span class="badge bg-primary-soft text-primary me-2">{{ category.name }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <h3 class="h5 card-title">{{ article.title }}</h3>
+                                <p class="card-text text-dark-soft">{{ article.content|slice(0, 120) }}...</p>
+                            </div>
+                            <div class="card-footer bg-white border-0 pt-0">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-dark-soft">
+                                        <i class="far fa-calendar me-1"></i>
+                                        {{ article.createdAt|date('d/m/Y') }}
+                                    </small>
+                                    {% if app.user %}
+                                        <a href="{{ path('app_blog_show', {'id': article.id}) }}" class="btn btn-link text-primary p-0">
+                                            Lire plus <i class="fas fa-arrow-right ms-1"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('app_login') }}" class="btn btn-link text-primary p-0">
+                                            Se connecter pour lire <i class="fas fa-lock ms-1"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-6">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-md-4">
+                    <div class="text-center px-4">
+                        <div class="feature-icon bg-primary-soft rounded-3 p-3 d-inline-flex mb-4">
+                            <i class="fas fa-users fa-2x text-primary"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Communauté Active</h3>
+                        <p class="text-dark-soft mb-0">Échangez avec des passionnés et partagez vos expériences dans un environnement bienveillant.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center px-4">
+                        <div class="feature-icon bg-primary-soft rounded-3 p-3 d-inline-flex mb-4">
+                            <i class="fas fa-lightbulb fa-2x text-primary"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Contenus Inspirants</h3>
+                        <p class="text-dark-soft mb-0">Découvrez des articles soigneusement rédigés pour vous inspirer et enrichir vos connaissances.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center px-4">
+                        <div class="feature-icon bg-primary-soft rounded-3 p-3 d-inline-flex mb-4">
+                            <i class="fas fa-comments fa-2x text-primary"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Discussions Enrichissantes</h3>
+                        <p class="text-dark-soft mb-0">Participez aux conversations et échangez vos points de vue sur des sujets variés.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .py-6 {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+
+        .hero {
+            background-color: #fff;
+            overflow: hidden;
+        }
+
+        .bg-primary-soft {
+            background-color: rgba(var(--bs-primary-rgb), 0.1);
+        }
+
+        .text-dark-soft {
+            color: #6c757d;
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-link {
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        .z-2 {
+            z-index: 2;
+        }
+
+        .badge {
+            font-weight: 500;
+            padding: 0.5em 1em;
+        }
+
+        .shadow-sm {
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+        }
+    </style>
+{% endblock %}

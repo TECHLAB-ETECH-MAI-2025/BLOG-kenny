@@ -17,7 +17,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ path('app_blog') }}">
+                <a class="navbar-brand" href="{{ path('app_home') }}">
                     <i class="fas fa-blog me-2"></i>
                     Blog Kenny
                 </a>
@@ -26,6 +26,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.get('_route') == 'app_home' ? 'active' }}" href="{{ path('app_home') }}">
+                                <i class="fas fa-home me-1"></i>
+                                Accueil
+                            </a>
+                        </li>
                         {% if is_granted('ROLE_USER') %}
                             <li class="nav-item">
                                 <a class="nav-link {{ app.request.get('_route') starts with 'app_blog' ? 'active' }}" href="{{ path('app_blog') }}">
@@ -142,13 +148,11 @@
         {% endblock %}
 
         <script>
-            // Activer tous les tooltips Bootstrap
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             })
 
-            // Fermeture automatique des alertes après 5 secondes
             document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(function() {
                     var alerts = document.querySelectorAll('.alert');

@@ -17,11 +17,6 @@ use Knp\Component\Pager\PaginatorInterface;
 #[Route('/admin/article')]
 class ArticleController extends AbstractController
 {
-    public function __construct()
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-    }
-
     #[Route(name: 'app_article_index', methods: ['GET', 'POST'])]
     public function index(Request $request, ArticleRepository $articleRepository, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {

@@ -15,10 +15,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/comment')]
 class CommentController extends AbstractController
 {
-    public function __construct()
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-    }
 
     #[Route('/', name: 'app_comment_index', methods: ['GET'])]
     public function index(Request $request,CommentRepository $commentRepository,PaginatorInterface $paginator): Response
