@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Form\ArticleForm;
-use App\Form\CommentForm;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +24,8 @@ class ArticleController extends AbstractController
             ->addSelect('c')
             ->leftJoin('a.categories', 'cat')
             ->addSelect('cat')
+            ->leftJoin('a.author', 'auth')
+            ->addSelect('auth')
             ->orderBy('a.createdAt', 'DESC')
             ->getQuery();
 
@@ -41,7 +42,7 @@ class ArticleController extends AbstractController
                 $comment = new Comment();
                 $comment->setArticle($article);
                 $comment->setCreatedAt(new \DateTimeImmutable());
-                $comment->setAuthor($request->request->get('author'));
+                $comment->setAuthor($this->getUser());
                 $comment->setContent($request->request->get('content'));
                 
                 $entityManager->persist($comment);
@@ -69,6 +70,7 @@ class ArticleController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $article = new Article();
+        $article->setAuthor($this->getUser());
         $form = $this->createForm(ArticleForm::class, $article);
         $form->handleRequest($request);
 
@@ -112,6 +114,8 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Mise à jour des champs updated
+            $article->setUpdatedBy($this->getUser());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);

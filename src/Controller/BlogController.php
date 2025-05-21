@@ -41,6 +41,7 @@ class BlogController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $article = new Article();
+        $article->setAuthor($this->getUser());
         $form = $this->createForm(ArticleForm::class, $article);
         $form->handleRequest($request);
 
@@ -65,10 +66,13 @@ class BlogController extends AbstractController
 
         $comment = new Comment();
         $comment->setArticle($article);
+        $comment->setAuthor($this->getUser());
+        $comment->setCreatedAt(new \DateTimeImmutable());
+        
         $commentForm = $this->createForm(CommentForm::class, $comment, [
-            'action' => $this->generateUrl('app_blog_add_comment', ['id' => $article->getId()])
+            'action' => $this->generateUrl('app_blog_add_comment', ['id' => $article->getId()]),
+            'select_article' => false,
         ]);
-
         return $this->render('blog/show.html.twig', [
             'article' => $article,
             'commentForm' => $commentForm->createView(),
@@ -82,6 +86,7 @@ class BlogController extends AbstractController
 
         $comment = new Comment();
         $comment->setArticle($article);
+        $comment->setAuthor($this->getUser());
         $comment->setCreatedAt(new \DateTimeImmutable());
         
         $form = $this->createForm(CommentForm::class, $comment);
@@ -90,10 +95,39 @@ class BlogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($comment);
             $entityManager->flush();
-            
+
             $this->addFlash('success', 'Commentaire ajouté avec succès !');
+            return $this->redirectToRoute('app_blog_show', ['id' => $article->getId()]);
         }
 
         return $this->redirectToRoute('app_blog_show', ['id' => $article->getId()]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_blog_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        
+        // Vérifier si l'utilisateur est l'auteur de l'article
+        if ($article->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à modifier cet article.');
+        }
+
+        $form = $this->createForm(ArticleForm::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Mise à jour des champs updated
+            $article->setUpdatedBy($this->getUser());
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Article modifié avec succès !');
+            return $this->redirectToRoute('app_blog_show', ['id' => $article->getId()]);
+        }
+
+        return $this->render('blog/edit.html.twig', [
+            'article' => $article,
+            'form' => $form->createView(),
+        ]);
     }
 }
