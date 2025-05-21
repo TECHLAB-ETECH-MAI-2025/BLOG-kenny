@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 use Knp\Component\Pager\PaginatorInterface;
 
-#[Route('/article')]
+#[Route('/admin/article')]
 class ArticleController extends AbstractController
 {
     #[Route(name: 'app_article_index', methods: ['GET', 'POST'])]

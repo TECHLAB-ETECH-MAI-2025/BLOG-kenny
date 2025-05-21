@@ -55,6 +55,11 @@
                                 class="form-control" autocomplete="current-password" required
                                 placeholder="Votre mot de passe">
                         </div>
+                        <div class="mt-2 text-end">
+                            <a href="{{ path('app_forgot_password_request') }}" class="text-primary text-decoration-none small">
+                                <i class="fas fa-key me-1"></i>Mot de passe oublié ?
+                            </a>
+                        </div>
                     </div>
 
                     <input type="hidden" name="_csrf_token" 
