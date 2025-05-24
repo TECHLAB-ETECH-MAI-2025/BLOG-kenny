@@ -38,6 +38,9 @@ class CategoryForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Category::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'categorie_form',
         ]);
     }
 }

@@ -24,7 +24,7 @@
                 <tr>
                     <td>{{ comment.id }}</td>
                     <td>{{ comment.article ? comment.article.title : 'N/A' }}</td>
-                    <td>{{ comment.author }}</td>
+                    <td>{{ comment.author.firstName }} {{ comment.author.lastName }}</td>
                     <td>{{ comment.content|slice(0, 100) }}...</td>
                     <td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
