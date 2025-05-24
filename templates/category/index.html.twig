@@ -13,6 +13,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nom</th>
+                    <th>Description</th>
                     <th>Nombre d'articles</th>
                     <th>Actions</th>
                 </tr>
@@ -22,6 +23,7 @@
                 <tr>
                     <td>{{ category.id }}</td>
                     <td>{{ category.name }}</td>
+                    <td>{{ category.description|slice(0, 100) }}{{ category.description|length > 100 ? '...' : '' }}</td>
                     <td>{{ category.articles|length }}</td>
                     <td>
                         <a href="{{ path('app_category_show', {'id': category.id}) }}" class="btn btn-info btn-sm">Voir</a>
@@ -30,7 +32,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">Aucune catégorie trouvée</td>
+                    <td colspan="5">Aucune catégorie trouvée</td>
                 </tr>
             {% endfor %}
             </tbody>

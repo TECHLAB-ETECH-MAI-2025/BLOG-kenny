@@ -33,6 +33,9 @@ class Category
     #[ORM\ManyToOne]
     private ?User $updatedBy = null;
 
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -84,6 +87,18 @@ class Category
         if ($this->articles->removeElement($article)) {
             $article->removeCategory($this);
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
