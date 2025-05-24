@@ -7,6 +7,12 @@
         {{ form_errors(form.name) }}
     </div>
 
+    <div class="form-group mt-3">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
+
     <div class="form-actions mt-4">
         <button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
         <a href="{{ path('app_category_index') }}" class="btn btn-outline-secondary">Annuler</a>

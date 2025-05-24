@@ -9,6 +9,12 @@
                 <h1 class="h2 mb-0">{{ category.name }}</h1>
             </div>
             <div class="card-body">
+                {% if category.description %}
+                    <div class="mb-4">
+                        <p class="lead">{{ category.description }}</p>
+                    </div>
+                {% endif %}
+
                 {% if category.updatedAt %}
                     <div class="mb-3">
                         <small class="text-muted">
