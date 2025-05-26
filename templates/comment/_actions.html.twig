@@ -1,0 +1,34 @@
+{% block comment_actions %}
+<div class="btn-group btn-group-sm">
+    <a href="{{ path('app_article_show', {id: comment.article.id}) }}" class="btn btn-info" title="Voir l'article" data-bs-toggle="tooltip">
+        <i class="fas fa-eye"></i>
+    </a>
+    {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and app.user == comment.author) %}
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCommentModal{{ comment.id }}" title="Supprimer" data-bs-toggle="tooltip">
+            <i class="fas fa-trash"></i>
+        </button>
+    {% endif %}
+</div>
+
+<!-- Modal de suppression -->
+<div class="modal fade" id="deleteCommentModal{{ comment.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer ce commentaire ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form method="post" action="{{ path('app_comment_delete', {id: comment.id}) }}" style="display: inline-block">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

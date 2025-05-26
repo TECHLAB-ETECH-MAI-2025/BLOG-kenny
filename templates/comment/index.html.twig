@@ -2,13 +2,38 @@
 
 {% block title %}Liste des Commentaires{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
+
 {% block body %}
     <div class="container mt-4">
         <h1>Liste des Commentaires</h1>
 
-        <a href="{{ path('app_comment_new') }}" class="btn btn-primary mb-3">Créer un nouveau commentaire</a>
+        <div class="mb-4">
+            <a href="{{ path('app_comment_new') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nouveau commentaire
+            </a>
+        </div>
 
-        <table class="table table-striped">
+        <!-- Barre de recherche -->
+        <div class="search-container mb-4">
+            <input type="text" 
+                   class="form-control" 
+                   id="datatable-search"
+                   placeholder="Rechercher un commentaire...">
+        </div>
+
+        <!-- Table -->
+        <div class="card">
+            <div class="card-body">
+                <table id="comments-table" class="table table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -19,25 +44,6 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-            {% for comment in comments %}
-                <tr>
-                    <td>{{ comment.id }}</td>
-                    <td>{{ comment.article ? comment.article.title : 'N/A' }}</td>
-                    <td>{{ comment.author.firstName }} {{ comment.author.lastName }}</td>
-                    <td>{{ comment.content|slice(0, 100) }}...</td>
-                    <td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>
-                        <a href="{{ path('app_comment_show', {'id': comment.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ path('app_comment_edit', {'id': comment.id}) }}" class="btn btn-warning btn-sm">Éditer</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="6">Aucun commentaire trouvé</td>
-                </tr>
-            {% endfor %}
-            </tbody>
         </table>
     </div>
 {% endblock %}

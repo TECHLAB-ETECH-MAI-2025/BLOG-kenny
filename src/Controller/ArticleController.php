@@ -9,6 +9,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 use Knp\Component\Pager\PaginatorInterface;
@@ -126,4 +127,86 @@ class ArticleController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/api/articles', name: 'app_article_api', methods: ['POST'])]
+    public function apiIndex(Request $request, ArticleRepository $articleRepository): JsonResponse
+    {
+        $draw = $request->request->get('draw');
+        $start = $request->request->get('start', 0);
+        $length = $request->request->get('length', 10);
+        $search = $request->request->get('search')['value'] ?? '';
+        $orders = $request->request->get('order', []);
+
+        $qb = $articleRepository->createQueryBuilder('a')
+            ->leftJoin('a.categories', 'c')
+            ->leftJoin('a.author', 'u')
+            ->select('a', 'c', 'u');
+
+        // Recherche
+        if (!empty($search)) {
+            $qb->andWhere('a.title LIKE :search OR a.content LIKE :search')
+               ->setParameter('search', '%' . $search . '%');
+        }
+
+        // Tri
+        if (!empty($orders)) {
+            $column = $request->request->get('columns')[$orders[0]['column']];
+            $dir = $orders[0]['dir'];
+
+            switch ($column['data']) {
+                case 'id':
+                    $qb->orderBy('a.id', $dir);
+                    break;
+                case 'title':
+                    $qb->orderBy('a.title', $dir);
+                    break;
+                case 'categories':
+                    $qb->orderBy('c.name', $dir);
+                    break;
+                case 'commentsCount':
+                    $qb->leftJoin('a.comments', 'co')
+                       ->orderBy('COUNT(co.id)', $dir)
+                       ->groupBy('a.id');
+                    break;
+                case 'createdAt':
+                    $qb->orderBy('a.createdAt', $dir);
+                    break;
+                default:
+                    $qb->orderBy('a.createdAt', 'DESC');
+            }
+        }
+
+        // Compter le total
+        $totalRecords = count($qb->getQuery()->getResult());
+
+        // Pagination
+        $qb->setFirstResult($start)
+           ->setMaxResults($length);
+
+        $articles = $qb->getQuery()->getResult();
+
+        $data = [];
+        foreach ($articles as $article) {
+            $data[] = [
+                'id' => $article->getId(),
+                'title' => $article->getTitle(),
+                'categories' => $article->getCategories()->map(function($cat) {
+                    return $cat->getName();
+                })->toArray(),
+                'commentsCount' => count($article->getComments()),
+                'createdAt' => $article->getCreatedAt()?->format('Y-m-d H:i:s'),
+                'actions' => $this->renderView('article/_actions.html.twig', [
+                    'article' => $article
+                ])
+            ];
+        }
+
+        return new JsonResponse([
+            'draw' => $draw,
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => $totalRecords,
+            'data' => $data
+        ]);
+    }
+
 }
