@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('chat') }}
+{% endblock %}
+
+{% block body %}
+<div class="chat-container">
+    <div class="users-list">
+        {% for user in users %}
+            {% if user.id != app.user.id %}
+                <div class="user-item" data-user-id="{{ user.id }}">
+                    {{ user.email }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="chat-area">
+        <div id="messages-container" class="messages-container">
+            <div class="text-center text-muted">
+                Sélectionnez un utilisateur pour commencer la conversation
+            </div>
+        </div>
+        <div class="message-form" style="display: none;">
+            <textarea id="message-content" class="message-input" placeholder="Écrivez votre message..."></textarea>
+            <button id="send-message" class="send-button">Envoyer</button>
+            <input type="hidden" id="receiver-id" value="">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('chat') }}
+{% endblock %}
