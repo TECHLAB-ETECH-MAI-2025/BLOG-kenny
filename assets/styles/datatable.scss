@@ -1,0 +1,214 @@
+@import "~bootstrap/scss/bootstrap";
+@import "~datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+@import "~datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css";
+@import "~datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css";
+
+// Variables
+$table-header-bg: #f8f9fa;
+$table-hover-bg: rgba(0, 0, 0, 0.02);
+$border-radius: 0.5rem;
+
+// Styles pour les tables DataTables
+.dataTables_wrapper {
+  margin-bottom: 2rem;
+
+  // Card styling
+  .card {
+    border-radius: $border-radius;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+    .card-header {
+      background-color: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+  }
+
+  // Boutons
+  .dt-buttons {
+    .btn {
+      i {
+        opacity: 0.7;
+      }
+
+      &:hover i {
+        opacity: 1;
+      }
+    }
+
+    .btn-group {
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+  }
+
+  // Style de la table
+  table.dataTable {
+    margin: 0 !important;
+    border-radius: $border-radius;
+
+    thead {
+      th {
+        background-color: $table-header-bg;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+        font-weight: 600;
+        color: #495057;
+        padding: 1rem;
+        vertical-align: middle;
+
+        &.sorting,
+        &.sorting_asc,
+        &.sorting_desc {
+          &:after {
+            opacity: 0.4;
+          }
+
+          &:hover:after {
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: $table-hover-bg;
+          transform: translateY(-1px);
+        }
+
+        &.selected {
+          background-color: rgba(13, 110, 253, 0.05);
+        }
+
+        // Ligne avec mention "urgent"
+        &.table-warning {
+          background-color: rgba(255, 193, 7, 0.1);
+        }
+
+        td {
+          padding: 1rem;
+          vertical-align: middle;
+
+          // Style pour les badges
+          .badge {
+            font-weight: 500;
+            padding: 0.5em 0.75em;
+          }
+
+          // Style pour les avatars
+          .rounded-circle {
+            transition: transform 0.2s ease;
+
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+
+          // Style pour les boutons d'action
+          .btn-group {
+            .btn {
+              padding: 0.25rem 0.5rem;
+              font-size: 0.875rem;
+
+              i {
+                opacity: 0.7;
+                transition: opacity 0.2s ease;
+              }
+
+              &:hover i {
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Pagination et info
+  .dataTables_info {
+    padding: 1rem;
+    color: #6c757d;
+    font-size: 0.875rem;
+  }
+
+  .dataTables_paginate {
+    padding: 1rem;
+
+    .pagination {
+      margin: 0;
+
+      .page-item {
+        &.active .page-link {
+          background-color: #0d6efd;
+          border-color: #0d6efd;
+        }
+
+        .page-link {
+          width: 2.25rem;
+          height: 2.25rem;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 0.25rem;
+          margin: 0 0.125rem;
+          font-size: 0.875rem;
+
+          &:hover {
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+          }
+
+          i {
+            font-size: 0.75rem;
+          }
+        }
+
+        &.disabled .page-link {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+
+  // Modal pour voir plus
+  .modal {
+    .modal-content {
+      border-radius: $border-radius;
+    }
+
+    .modal-header {
+      background-color: $table-header-bg;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 767.98px) {
+    .card-header {
+      .row > div {
+        margin-bottom: 1rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .dataTables_length,
+    .dataTables_info,
+    .dataTables_paginate {
+      text-align: center;
+    }
+  }
+}
+
+// Animation de chargement
+.dataTables_processing {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-radius: $border-radius;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+}

@@ -1,41 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Catégories{% endblock %}
+{% block title %}Liste des catégories{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
 
 {% block body %}
     <div class="container mt-4">
-        <h1>Liste des Catégories</h1>
+        <h1>Liste des catégories</h1>
 
-        <a href="{{ path('app_category_new') }}" class="btn btn-primary mb-3">Créer une nouvelle catégorie</a>
+        <div class="mb-4">
+            <a href="{{ path('app_category_new') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nouvelle catégorie
+            </a>
+        </div>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Description</th>
-                    <th>Nombre d'articles</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for category in categories %}
-                <tr>
-                    <td>{{ category.id }}</td>
-                    <td>{{ category.name }}</td>
-                    <td>{{ category.description|slice(0, 100) }}{{ category.description|length > 100 ? '...' : '' }}</td>
-                    <td>{{ category.articles|length }}</td>
-                    <td>
-                        <a href="{{ path('app_category_show', {'id': category.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-warning btn-sm">Éditer</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5">Aucune catégorie trouvée</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        <!-- Barre de recherche -->
+        <div class="search-container mb-4">
+            <input type="text" 
+                   class="form-control" 
+                   id="datatable-search"
+                   placeholder="Rechercher une catégorie...">
+        </div>
+
+        <!-- Table -->
+        <div class="card">
+            <div class="card-body">
+                <table id="categories-table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Description</th>
+                            <th>Articles</th>
+                            <th>Dernière mise à jour</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}

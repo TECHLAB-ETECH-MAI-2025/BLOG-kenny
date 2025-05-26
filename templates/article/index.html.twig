@@ -1,51 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Articles{% endblock %}
+{% block title %}Liste des articles{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('datatable') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('datatable') }}
+{% endblock %}
 
 {% block body %}
     <div class="container mt-4">
-        <h1>Liste des Articles</h1>
+        <h1>Liste des articles</h1>
 
-        <a href="{{ path('app_article_new') }}" class="btn btn-primary mb-3">Créer un nouvel article</a>
+        <div class="mb-4">
+            <a href="{{ path('app_article_new') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nouvel article
+            </a>
+        </div>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Titre</th>
-                    <th>Contenu</th>
-                    <th>Auteur</th>
-                    <th>Date de création</th>
-                    <th>Catégories</th>
-                    <th>Commentaires</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for article in articles %}
-                <tr>
-                    <td>{{ article.id }}</td>
-                    <td>{{ article.title }}</td>
-                    <td>{{ article.content|slice(0, 100) }}...</td>
-                    <td>{{ article.author.firstname }}</td>
-                    <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>
-                        {% for category in article.categories %}
-                            <span class="badge bg-secondary">{{ category.name }}</span>
-                        {% endfor %}
-                    </td>
-                    <td>{{ article.comments|length }}</td>
-                    <td>
-                        <a href="{{ path('app_article_show', {'id': article.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ path('app_article_edit', {'id': article.id}) }}" class="btn btn-warning btn-sm">Éditer</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="7">Aucun article trouvé</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        <!-- Barre de recherche -->
+        <div class="search-container mb-4">
+            <input type="text" 
+                   class="form-control" 
+                   id="datatable-search"
+                   placeholder="Rechercher un article...">
+        </div>
+
+        <!-- Table -->
+        <div class="card">
+            <div class="card-body">
+                <table id="articles-table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Titre</th>
+                            <th>Catégories</th>
+                            <th>Commentaires</th>
+                            <th>Date de création</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}
