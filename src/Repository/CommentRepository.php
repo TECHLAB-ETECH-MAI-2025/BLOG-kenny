@@ -40,4 +40,36 @@ class CommentRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * @return array{data: Comment[], total: int, filtered: int}
+     */
+    public function findForDataTable(int $start, int $length, string $search): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.article', 'a');
+
+        // Total count
+        $total = $this->count([]);
+
+        // Apply search
+        if ($search) {
+            $qb->andWhere('c.content LIKE :search OR c.author LIKE :search OR a.title LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        // Get filtered count
+        $filtered = (clone $qb)->select('COUNT(DISTINCT c.id)')->getQuery()->getSingleScalarResult();
+
+        // Get results
+        $qb->setFirstResult($start)
+            ->setMaxResults($length)
+            ->orderBy('c.id', 'DESC');
+
+        return [
+            'data' => $qb->getQuery()->getResult(),
+            'total' => $total,
+            'filtered' => $filtered
+        ];
+    }
 }

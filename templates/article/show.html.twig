@@ -21,11 +21,35 @@
             <div class="mb-4">
                 <small class="text-muted">
                     <i class="far fa-clock me-1"></i>Publié le {{ article.createdAt|date('d/m/Y H:i') }}
+                    {% if article.author %}
+                        <br>
+                        <i class="fas fa-user me-1"></i>Par {{ article.author.firstName }} {{ article.author.lastName }}
+                    {% endif %}
+                    {% if article.updatedAt %}
+                        <br>
+                        <i class="fas fa-edit me-1"></i>Dernière modification le {{ article.updatedAt|date('d/m/Y H:i') }}
+                        {% if article.updatedBy %}
+                            par {{ article.updatedBy.firstName }} {{ article.updatedBy.lastName }}
+                        {% endif %}
+                    {% endif %}
                 </small>
                 <div class="mt-2">
                     {% for category in article.categories %}
                         <span class="badge bg-secondary me-1">{{ category.name }}</span>
                     {% endfor %}
+                </div>
+                <div class="mt-2">
+                    {% if is_granted('ROLE_USER') %}
+                        <button class="btn btn-outline-danger btn-sm like-button" data-article-id="{{ article.id }}" data-liked="{{ app.user and article.articleLikes|filter(like => like.author == app.user)|length > 0 ? 'true' : 'false' }}">
+                            <i class="{{ app.user and article.articleLikes|filter(like => like.author == app.user)|length > 0 ? 'fas' : 'far' }} fa-heart me-1"></i>
+                            <span class="like-count">{{ article.articleLikes|length }}</span>
+                        </button>
+                    {% else %}
+                        <span class="text-muted">
+                            <i class="far fa-heart me-1"></i>
+                            {{ article.articleLikes|length }}
+                        </span>
+                    {% endif %}
                 </div>
             </div>
 

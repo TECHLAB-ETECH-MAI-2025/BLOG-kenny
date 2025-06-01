@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('chat') }}
+    <style>
+        :root {
+            --navbar-height: 70px; /* Ajusté pour correspondre à la nouvelle hauteur */
+        }
+        
+        /* Override container uniquement pour cette page */
+        .chat-container .container {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: none !important;
+        }
+        
+        body {
+            overflow: hidden;
+        }
+        
+        /* Assurer que le chat prend toute la hauteur disponible */
+        .chat-container {
+            height: calc(100vh - var(--navbar-height));
+            padding-top: 0;
+            z-index: 10 !important; /* S'assurer que le dropdown reste accessible */
+        }
+        
+        /* S'assurer que le navbar et ses dropdowns restent au-dessus */
+        .navbar {
+            z-index: 1030 !important;
+        }
+        
+        .dropdown-menu {
+            z-index: 1050 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="chat-container">
+    <div class="users-list">
+        <div class="users-list-header">
+            <h2>Discussions</h2>
+        </div>
+        <div class="users-list-search">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Rechercher dans Chat">
+        </div>
+        <div class="users-list-content">
+            {% for user in users %}
+                {% if user.id != app.user.id %}
+                    <div class="user-item" data-user-connected="{{ app.user.id }}" data-user-choose="{{ user.id }}" data-chat-id="{{ user.chats.get(0).id }}">
+                        <div class="user-avatar">
+                            {{ user.email|first|upper }}
+                            <div class="user-status-dot"></div>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">{{ user.email }}</div>
+                            <div class="user-status">En ligne</div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="chat-area">
+        <div class="chat-header">
+            <div class="user-avatar selected-user-avatar" style="display: none;">
+                <span class="avatar-initial"></span>
+                <div class="user-status-dot"></div>
+            </div>
+            <div class="user-info">
+                <div class="user-name selected-user-name"></div>
+                <div class="user-status">En ligne</div>
+            </div>
+        </div>
+        <div id="messages-container" class="messages-container">
+            <div class="text-center text-muted">
+                Sélectionnez un utilisateur pour commencer la conversation
+            </div>
+        </div>
+        <div class="message-form" style="display: none;">
+            <textarea id="message-content" class="message-input" placeholder="Aa"></textarea>
+            <button id="send-message" class="send-button" title="Envoyer">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+            <input type="hidden" id="receiver-id" value="">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('chat') }}
+{% endblock %}

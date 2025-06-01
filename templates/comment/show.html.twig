@@ -47,6 +47,17 @@
 
             <div class="text-muted">
                 <i class="far fa-clock me-1"></i>Commenté le {{ comment.createdAt|date('d/m/Y H:i') }}
+                {% if comment.author %}
+                    <br>
+                    <i class="fas fa-user me-1"></i>Par {{ comment.author.firstName }} {{ comment.author.lastName }}
+                {% endif %}
+                {% if comment.updatedAt %}
+                    <br>
+                    <i class="fas fa-edit me-1"></i>Dernière modification le {{ comment.updatedAt|date('d/m/Y H:i') }}
+                    {% if comment.updatedBy %}
+                        par {{ comment.updatedBy.firstName }} {{ comment.updatedBy.lastName }}
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
         <div class="card-footer bg-transparent">
