@@ -7,15 +7,34 @@
     {{ encore_entry_script_tags('chat') }}
     <style>
         :root {
-            --navbar-height: 56px;
+            --navbar-height: 70px; /* Ajusté pour correspondre à la nouvelle hauteur */
         }
-        .container {
+        
+        /* Override container uniquement pour cette page */
+        .chat-container .container {
             padding: 0 !important;
             margin: 0 !important;
             max-width: none !important;
         }
+        
         body {
             overflow: hidden;
+        }
+        
+        /* Assurer que le chat prend toute la hauteur disponible */
+        .chat-container {
+            height: calc(100vh - var(--navbar-height));
+            padding-top: 0;
+            z-index: 10 !important; /* S'assurer que le dropdown reste accessible */
+        }
+        
+        /* S'assurer que le navbar et ses dropdowns restent au-dessus */
+        .navbar {
+            z-index: 1030 !important;
+        }
+        
+        .dropdown-menu {
+            z-index: 1050 !important;
         }
     </style>
 {% endblock %}
