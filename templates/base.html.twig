@@ -41,6 +41,12 @@
                                     Blog
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ app.request.get('_route') starts with 'chat_' ? 'active' }}" href="{{ path('chat_index') }}">
+                                    <i class="fas fa-comments me-1"></i>
+                                    Chat
+                                </a>
+                            </li>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="nav-item dropdown">
@@ -134,28 +140,36 @@
             {% block body %}{% endblock %}
         </main>
 
+        {# Bibliothèques JavaScript principales #}
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('.select2').select2({
-                    theme: 'bootstrap-5',
-                    width: '100%'
-                });
-            });
-        </script>
+
+        {# Scripts de l'application #}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
 
+        {# Initialisation des composants #}
         <script>
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
+            $(document).ready(function() {
+                // Initialisation de Select2
+                $('.select2').select2({
+                    theme: 'bootstrap-5',
+                    width: '100%'
+                });
 
-            document.addEventListener('DOMContentLoaded', function() {
+                // Initialisation des tooltips
+                $('[data-bs-toggle="tooltip"]').tooltip();
+
+                // Initialisation des dropdowns
+                var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+                dropdownElementList.forEach(function (dropdownToggleEl) {
+                    new bootstrap.Dropdown(dropdownToggleEl);
+                });
+
+                // Fermeture automatique des alertes
                 setTimeout(function() {
                     var alerts = document.querySelectorAll('.alert');
                     alerts.forEach(function(alert) {

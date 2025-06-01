@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('datatable', './assets/js/datatable.js')
+    .addEntry('chat', ['./assets/js/chat.js', './assets/styles/chat.css'])
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

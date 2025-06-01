@@ -1,0 +1,12 @@
+{% if receiver %}
+    {% for message in messages %}
+        <div class="message {% if message.sender.id == app.user.id %}sent{% else %}received{% endif %}">
+            <div class="message-content">{{ message.content }}</div>
+            <div class="message-time">{{ message.createdAt|date('H:i') }}</div>
+        </div>
+    {% else %}
+        <div class="text-center text-muted">
+            Aucun message avec {{ receiver.email }}. Commencez la conversation !
+        </div>
+    {% endfor %}
+{% endif %}
