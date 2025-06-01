@@ -15,5 +15,7 @@ import './styles/app.css';
 import './styles/auth.css';
 import './js/like.js';
 import './js/datatable.js';
+import './js/chat.js';
+import './styles/chat.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
