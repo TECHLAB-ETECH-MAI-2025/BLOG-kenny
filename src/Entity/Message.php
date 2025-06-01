@@ -18,15 +18,14 @@ class Message
     #[ORM\JoinColumn(nullable: false)]
     private ?User $sender = null;
 
-    #[ORM\ManyToOne(inversedBy: 'receivedMessages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $receiver = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    private ?Chat $chat = null;
 
     public function getId(): ?int
     {
@@ -45,17 +44,6 @@ class Message
         return $this;
     }
 
-    public function getReceiver(): ?User
-    {
-        return $this->receiver;
-    }
-
-    public function setReceiver(?User $receiver): static
-    {
-        $this->receiver = $receiver;
-
-        return $this;
-    }
 
     public function getContent(): ?string
     {
@@ -77,6 +65,18 @@ class Message
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getChat(): ?Chat
+    {
+        return $this->chat;
+    }
+
+    public function setChat(?Chat $chat): static
+    {
+        $this->chat = $chat;
 
         return $this;
     }

@@ -1,25 +1,47 @@
 
 services:
 ###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
+  mercure:
+    image: dunglas/mercure:v0.15
+    restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
+      # Configuration du Hub
+      MERCURE_LOG_LEVEL: debug
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: 'a-string-secret-at-least-256-bits-long'
+      MERCURE_SUBSCRIBER_JWT_KEY: 'a-string-secret-at-least-256-bits-long'
+      # Autoriser les requêtes depuis votre domaine
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins http://localhost:3000 http://localhost:8000 http://localhost:8001 http://127.0.0.1:8001
+        anonymous
+        subscriptions
+        publish_origins http://localhost:8000 http://localhost:8001 http://127.0.0.1:8001
+    ports:
+      - "3001:80"
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
+      - mercure_data:/data
+      - mercure_config:/config
+#  database:
+#    image: postgres:${POSTGRES_VERSION:-16}-alpine
+#    environment:
+#      POSTGRES_DB: ${POSTGRES_DB:-app}
+#      # You should definitely change the password in production
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+#      POSTGRES_USER: ${POSTGRES_USER:-app}
+#    healthcheck:
+#      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+#      timeout: 5s
+#      retries: 5
+#      start_period: 60s
+#    volumes:
+#      - database_data:/var/lib/postgresql/data:rw
+#      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+#      # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
 volumes:
 ###> doctrine/doctrine-bundle ###
-  database_data:
+#  database_data:
+  mercure_data:
+  mercure_config:
 ###< doctrine/doctrine-bundle ###
