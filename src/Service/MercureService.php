@@ -27,7 +27,7 @@ class MercureService
 
     public function publishChatMessage(int $chatId, array $messageData): void
     {
-        $this->publish("chat/$chatId", $messageData);
+        $this->publish("chat/{$chatId}", $messageData);
     }
 
 
