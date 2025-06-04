@@ -344,7 +344,6 @@ textarea.form-control {
 
 .table th {
   font-weight: 600 !important;
-  color: var(--secondary-color) !important;
   text-transform: uppercase !important;
   font-size: 0.875rem !important;
   letter-spacing: 0.05em !important;

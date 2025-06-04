@@ -100,7 +100,8 @@ final class ChatController extends AbstractController
     #[Route('/send', name: 'chat_send', methods: ['POST'])]
     public function send(
         Request                $request,
-        EntityManagerInterface $entityManager): Response
+        EntityManagerInterface $entityManager,
+        MercureService         $mercureService): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -131,37 +132,44 @@ final class ChatController extends AbstractController
         $entityManager->persist($message);
         $entityManager->flush();
 
-        $httpClient = HttpClient::create();
-
-        $mercureUrl = 'http://localhost:3001/.well-known/mercure';
-        $jwt = $_ENV['MERCURE_JWT_SECRET'] ?? '';
-
-        $data = [
-            'topic' => "chat/{$chat->getId()}",
-            'data' => json_encode([
+//        $httpClient = HttpClient::create();
+//
+//        $mercureUrl = $_ENV['MERCURE_PUBLIC_URL'] ?? 'http://localhost:3001/.well-known/mercure';
+//        $jwt = $_ENV['MERCURE_JWT_SECRET'] ?? '';
+//        $data = [
+//            'topic' => "chat/{$chat->getId()}",
+//            'data' => json_encode([
+//                'id' => $message->getId(),
+//                'content' => $message->getContent(),
+//                'userId' => $message->getSender()->getId(),
+//                'username' => $message->getSender()->getEmail(),
+//                'createdAt' => $message->getCreatedAt()->format('c'),
+//            ]),
+//        ];
+//
+//        $responseMercure = $httpClient->request('POST', $mercureUrl, [
+//            'headers' => [
+//                'Authorization' => 'Bearer ' . $jwt,
+//                'Content-Type' => 'application/x-www-form-urlencoded',
+//            ],
+//            'body' => http_build_query($data),
+//        ]);
+//
+//        if ($responseMercure->getStatusCode() !== 200) {
+//            return $this->json([
+//                'error' => 'Mercure publish failed',
+//                'details' => $responseMercure->getContent(false),
+//            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+//        }
+        $mercureService->publishChatMessage($chat->getId(),
+            [
                 'id' => $message->getId(),
                 'content' => $message->getContent(),
                 'userId' => $message->getSender()->getId(),
                 'username' => $message->getSender()->getEmail(),
                 'createdAt' => $message->getCreatedAt()->format('c'),
-            ]),
-        ];
-
-        $responseMercure = $httpClient->request('POST', $mercureUrl, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $jwt,
-                'Content-Type' => 'application/x-www-form-urlencoded',
-            ],
-            'body' => http_build_query($data),
-        ]);
-
-        if ($responseMercure->getStatusCode() !== 200) {
-            return $this->json([
-                'error' => 'Mercure publish failed',
-                'details' => $responseMercure->getContent(false),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-        dump("responseMercure", $responseMercure);
+            ]);
+        
         return $this->json(['success' => true]);
     }
 
