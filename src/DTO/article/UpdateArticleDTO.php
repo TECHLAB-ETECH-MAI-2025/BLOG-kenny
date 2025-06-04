@@ -23,8 +23,6 @@ class UpdateArticleDTO
     ])]
     public array $categoryIds = [];
 
-    #[Assert\NotNull]
-    public int $authorId;
 
     public function getId(): int
     {
@@ -66,15 +64,6 @@ class UpdateArticleDTO
         $this->categoryIds = $categoryIds;
     }
 
-    public function getAuthorId(): int
-    {
-        return $this->authorId;
-    }
-
-    public function setAuthorId(int $authorId): void
-    {
-        $this->authorId = $authorId;
-    }
 
 
 
