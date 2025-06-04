@@ -44,6 +44,9 @@ class Article
     #[ORM\OneToMany(targetEntity: ArticleLike::class, mappedBy: 'article')]
     private Collection $articleLikes;
 
+    #[ORM\Column]
+    private ?bool $isDeleted = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -214,6 +217,18 @@ class Article
                 $articleLike->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): static
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

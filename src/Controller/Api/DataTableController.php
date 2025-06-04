@@ -29,6 +29,7 @@ class DataTableController extends AbstractController
         $order = $request->request->all('order')[0] ?? [];
         
         $qb = $repository->createQueryBuilder('a')
+            ->where('a.isDeleted = false')
             ->leftJoin('a.categories', 'c')
             ->leftJoin('a.comments', 'com');
             
