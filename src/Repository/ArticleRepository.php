@@ -64,7 +64,6 @@ class ArticleRepository extends ServiceEntityRepository
     public function findWithRelations(int $limit, int $offset): array
     {
         return $this->createQueryBuilder('a')
-            ->where('a.isDeleted = false')
             ->leftJoin('a.categories', 'c')
             ->addSelect('c')
             ->leftJoin('a.comments', 'cm')
@@ -82,7 +81,6 @@ class ArticleRepository extends ServiceEntityRepository
     public function findByIdWithRelations(int $id): ?Article
     {
         return $this->createQueryBuilder('a')
-            ->where('a.isDeleted = false')
             ->leftJoin('a.categories', 'c')
             ->addSelect('c')
             ->leftJoin('a.comments', 'cm')
