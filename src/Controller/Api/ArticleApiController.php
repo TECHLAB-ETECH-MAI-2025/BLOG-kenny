@@ -77,7 +77,7 @@ class ArticleApiController extends AbstractController
         if (count($errors) > 0) {
             return $apiResponseService->error(
                 "Validation failed",
-                errors: ['errors' => $errors]
+                errors: ['errors' => $this->json([$errors])]
             );
         }
         $article = new Article();
@@ -86,8 +86,9 @@ class ArticleApiController extends AbstractController
         $article->setCreatedAt(new \DateTimeImmutable());
         $article->setUpdatedAt(new \DateTimeImmutable());
         //$article->setUpdatedBy($this->getUser());
+        //$article->setAuthor($this->getUser());
 
-        foreach ($createArticleDTO->getCategories() as $categoryId) {
+        foreach ($createArticleDTO->getCategoryIds() as $categoryId) {
             $category = $categoryRepository->find($categoryId);
             if ($category) {
                 $article->addCategory($category);
@@ -124,7 +125,7 @@ class ArticleApiController extends AbstractController
         if (count($errors) > 0) {
             return $apiResponseService->error(
                 "Validation failed",
-                errors: ['errors' => $errors]
+                errors: ['errors' => $this->json([$errors])]
             );
         }
         $article = $articleRepository->find($id);

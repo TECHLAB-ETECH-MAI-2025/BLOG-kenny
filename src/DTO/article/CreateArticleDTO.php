@@ -19,6 +19,36 @@ class CreateArticleDTO
     ])]
     public array $categoryIds = [];
 
-    #[Assert\NotNull]
-    public int $authorId;
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
+    }
+
+    public function getCategoryIds(): array
+    {
+        return $this->categoryIds;
+    }
+
+    public function setCategoryIds(array $categoryIds): void
+    {
+        $this->categoryIds = $categoryIds;
+    }
+
+
 }
