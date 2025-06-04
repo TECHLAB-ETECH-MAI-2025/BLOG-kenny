@@ -21,6 +21,7 @@ class ArticleController extends AbstractController
     public function index(Request $request, ArticleRepository $articleRepository, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
         $query = $articleRepository->createQueryBuilder('a')
+            ->where('a.isDeleted = false')
             ->leftJoin('a.comments', 'c')
             ->addSelect('c')
             ->leftJoin('a.categories', 'cat')
@@ -101,7 +102,8 @@ class ArticleController extends AbstractController
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($article);
+            $article->setIsDeleted(true);
+            $entityManager->persist($article);
             $entityManager->flush();
         }
 

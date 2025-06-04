@@ -24,6 +24,7 @@ class BlogController extends AbstractController
 
         $pagination = $paginator->paginate(
             $articleRepository->createQueryBuilder('a')
+                ->where('a.isDeleted = false')
                 ->orderBy('a.createdAt', 'DESC')
                 ->getQuery(),
             $request->query->getInt('page', 1),
