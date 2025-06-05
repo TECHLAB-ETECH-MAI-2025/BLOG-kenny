@@ -24,13 +24,17 @@ class CategoryApiController extends AbstractController
     #[Route('', methods: ['GET'])]
     public function index(ApiResponseService $apiResponseService, Request $request, CategoryRepository $categoryRepository): JsonResponse
     {
-        $page = $request->query->get('page', 1);
+        $page = (int) $request->query->get('page', 1);
         $limit = $request->query->get('limit', 10);
+        $all = $request->query->get('all', false);
         $offset = ($page - 1) * $limit;
 
         $total = $categoryRepository->count([]);
-        $categories = $categoryRepository->findBy([], ['createdAt' => 'DESC'], $limit, $offset);
-
+        if ($all) {
+            $categories = $categoryRepository->findBy([], ['createdAt' => 'DESC']);
+        } else {
+            $categories = $categoryRepository->findBy([], ['createdAt' => 'DESC'], $limit, $offset);
+        }
         $categoriesDTO = array_map(fn($category) => new CategoryDTO($category), $categories);
 
         return $apiResponseService->success(
