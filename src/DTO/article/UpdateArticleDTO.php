@@ -7,8 +7,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UpdateArticleDTO
 {
 
-    #[Assert\NotNull]
-    public int $id;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
@@ -21,18 +19,8 @@ class UpdateArticleDTO
     #[Assert\All([
         new Assert\Type(type: 'integer')
     ])]
-    public array $categoryIds = [];
+    public array $categories = [];
 
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
 
     public function getTitle(): string
     {
@@ -54,15 +42,17 @@ class UpdateArticleDTO
         $this->content = $content;
     }
 
-    public function getCategoryIds(): array
+    public function getCategories(): array
     {
-        return $this->categoryIds;
+        return $this->categories;
     }
 
-    public function setCategoryIds(array $categoryIds): void
+    public function setCategories(array $categories): void
     {
-        $this->categoryIds = $categoryIds;
+        $this->categories = $categories;
     }
+
+
 
 
 

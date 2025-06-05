@@ -15,7 +15,7 @@ class ArticleDTO
     private array $comments = [];
 
     private array $likes = [];
-    private ?int $authorId = null;
+    private array $author;
     private ?int $updatedById = null;
 
     public function __construct(?Article $article = null)
@@ -26,7 +26,12 @@ class ArticleDTO
             $this->setContent($article->getContent());
             $this->setCreatedAt($article->getCreatedAt());
             $this->setUpdatedAt($article->getUpdatedAt());
-            $this->setAuthorId($article->getAuthor()?->getId());
+            $this->author = [
+                'id' => $article->getAuthor()->getId(),
+                'email' => $article->getAuthor()->getEmail(),
+                'firstname' => $article->getAuthor()->getFirstName(),
+                'lastname' => $article->getAuthor()->getLastName()
+            ];
             $this->setUpdatedById($article->getUpdatedBy()?->getId());
 
             $categories = [];
@@ -141,14 +146,14 @@ class ArticleDTO
         $this->likes = $likes;
     }
 
-    public function getAuthorId(): ?int
+    public function getAuthor(): array
     {
-        return $this->authorId;
+        return $this->author;
     }
 
-    public function setAuthorId(?int $authorId): void
+    public function setAuthor(array $author): void
     {
-        $this->authorId = $authorId;
+        $this->author = $author;
     }
 
     public function getUpdatedById(): ?int

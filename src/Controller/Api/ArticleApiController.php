@@ -56,7 +56,7 @@ class ArticleApiController extends AbstractController
         $article = $articleRepository->findByIdWithRelations($id);
 
         if (!$article) {
-            return $apiResponseService->error("Article not found", 404);
+            return $apiResponseService->error("Article not found", Response::HTTP_NOT_FOUND);
         }
 
         return $apiResponseService->success(new ArticleDTO($article));
@@ -93,7 +93,7 @@ class ArticleApiController extends AbstractController
         //$article->setUpdatedBy($this->getUser());
         //$article->setAuthor($this->getUser());
 
-        foreach ($createArticleDTO->getCategoryIds() as $categoryId) {
+        foreach ($createArticleDTO->getCategories() as $categoryId) {
             $category = $categoryRepository->find($categoryId);
             if ($category) {
                 $article->addCategory($category);
@@ -150,14 +150,16 @@ class ArticleApiController extends AbstractController
         $article->setUpdatedAt(new \DateTimeImmutable());
         $article->setUpdatedBy($this->getUser());
 
-        // Gérer les catégories (par exemple, on peut vider et re-ajouter)
-        $article->getCategories()->clear();
-        foreach ($updateArticleDTO->getCategoryIds() as $categoryId) {
-            $category = $categoryRepository->find($categoryId);
-            if ($category) {
-                $article->addCategory($category);
+        if ($updateArticleDTO->getCategories() !== null) {
+            $article->getCategories()->clear();
+            foreach ($updateArticleDTO->getCategories() as $categoryId) {
+                $category = $categoryRepository->find($categoryId);
+                if ($category) {
+                    $article->addCategory($category);
+                }
             }
         }
+
 
         $entityManager->persist($article);
         $entityManager->flush();

@@ -17,7 +17,7 @@ class CreateArticleDTO
     #[Assert\All([
         new Assert\Type(type: 'integer')
     ])]
-    private array $categoryIds = [];
+    public array $categories = [];
 
 
     public function getTitle(): string
@@ -40,15 +40,17 @@ class CreateArticleDTO
         $this->content = $content;
     }
 
-    public function getCategoryIds(): array
+    public function getCategories(): array
     {
-        return $this->categoryIds;
+        return $this->categories;
     }
 
-    public function setCategoryIds(array $categoryIds): void
+    public function setCategories(array $categories): void
     {
-        $this->categoryIds = $categoryIds;
+        $this->categories = $categories;
     }
+
+
 
 
 }
