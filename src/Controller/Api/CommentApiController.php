@@ -55,7 +55,7 @@ class CommentApiController extends AbstractController
         $comment = $commentRepository->find($id);
 
         if (!$comment) {
-            return $apiResponseService->error("Comment not found", 404);
+            return $apiResponseService->error("Comment not found", Response::HTTP_NOT_FOUND);
         }
 
         return $apiResponseService->success(new CommentDTO($comment));
