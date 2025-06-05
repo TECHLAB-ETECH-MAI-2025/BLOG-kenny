@@ -27,10 +27,15 @@ class ArticleApiController extends AbstractController
     {
         $page = $request->query->get('page', 1);
         $limit = $request->query->get('limit', 10);
+        $all = $request->query->get('all', false);
         $offset = ($page - 1) * $limit;
 
         $total = $articleRepository->count([]);
-        $articles = $articleRepository->findWithRelations($limit, $offset);
+        if ($all){
+            $articles = $articleRepository->findBy([], ['createdAt' => 'DESC']);
+        } else {
+            $articles = $articleRepository->findBy([], ['createdAt' => 'DESC'], $limit, $offset);
+        }
 
         $articlesDTO = array_map(fn($article) => new ArticleDTO($article), $articles);
 
