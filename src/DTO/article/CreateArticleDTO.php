@@ -8,16 +8,16 @@ class CreateArticleDTO
 {
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    public string $title;
+    private string $title;
 
     #[Assert\NotBlank]
-    public string $content;
+    private string $content;
 
     /** @var int[] */
     #[Assert\All([
         new Assert\Type(type: 'integer')
     ])]
-    public array $categoryIds = [];
+    private array $categoryIds = [];
 
 
     public function getTitle(): string
