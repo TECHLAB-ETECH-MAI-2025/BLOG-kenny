@@ -30,9 +30,10 @@ class UpdateCommentDTO
         return $this->articleId;
     }
 
-    public function setArticleId(int $articleId): void
+    public function setArticleId(int $articleId): self
     {
         $this->articleId = $articleId;
+        return $this;
     }
 
 
