@@ -21,6 +21,7 @@ class ApiResponseService
 
         return new JsonResponse([
             'status' => 'success',
+            'code' => Response::HTTP_OK,
             'message' => $message,
             'data' => json_decode($jsonData, true), // 👈 important : convertir en tableau pour l'intégrer
             'meta' => $meta,
