@@ -54,7 +54,7 @@ class CategoryApiController extends AbstractController
         $category = $categoryRepository->find($id);
 
         if (!$category) {
-            return $apiResponseService->error("Category not found", 404);
+            return $apiResponseService->error("Category not found", Response::HTTP_NOT_FOUND);
         }
 
         return $apiResponseService->success(new CategoryDTO($category));
