@@ -16,31 +16,6 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
    }
 
-//    /**
-//     * @return Article[] Returns an array of Article objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Article
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
     /**
     * @return array{data: Article[], total: int, filtered: int}
     */
@@ -86,4 +61,37 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findWithRelations(int $limit, int $offset): array
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.categories', 'c')
+            ->addSelect('c')
+            ->leftJoin('a.comments', 'cm')
+            ->addSelect('cm')
+            ->leftJoin('a.articleLikes', 'al')
+            ->addSelect('al')
+            ->orderBy('a.createdAt', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+    // src/Repository/ArticleRepository.php
+
+    public function findByIdWithRelations(int $id): ?Article
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.categories', 'c')
+            ->addSelect('c')
+            ->leftJoin('a.comments', 'cm')
+            ->addSelect('cm')
+            ->leftJoin('a.articleLikes', 'al')
+            ->addSelect('al')
+            ->where('a.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
 }
