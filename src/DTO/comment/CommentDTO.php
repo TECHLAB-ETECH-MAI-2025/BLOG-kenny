@@ -22,7 +22,8 @@ class CommentDTO
         $this->author = [
             'id' => $comment->getAuthor()->getId(),
             'email' => $comment->getAuthor()->getEmail(),
-            'username' => $comment->getAuthor()->getEmail()
+            'firstname' => $comment->getAuthor()->getFirstName(),
+            'lastname' => $comment->getAuthor()->getLastName()
         ];
         $this->article = [
             'id' => $comment->getArticle()->getId(),

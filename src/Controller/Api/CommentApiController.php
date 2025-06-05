@@ -26,10 +26,15 @@ class CommentApiController extends AbstractController
     {
         $page = $request->query->get('page', 1);
         $limit = $request->query->get('limit', 10);
+        $all = $request->query->get('all', false);
         $offset = ($page - 1) * $limit;
 
         $total = $commentRepository->count([]);
-        $comments = $commentRepository->findBy([], ['createdAt' => 'DESC'], $limit, $offset);
+        if($all){
+            $comments = $commentRepository->findBy([], ['createdAt' => 'DESC']);
+        }else{
+            $comments = $commentRepository->findBy([], ['createdAt' => 'DESC'], $limit, $offset);
+        }
 
         $commentsDTO = array_map(fn($comment) => new CommentDTO($comment), $comments);
 
@@ -133,10 +138,10 @@ class CommentApiController extends AbstractController
             return $apiResponseService->error("Comment not found", Response::HTTP_NOT_FOUND);
         }
 
-        // Vérifier que l'utilisateur est l'auteur du commentaire
-        if ($comment->getAuthor() !== $this->getUser()) {
-            return $apiResponseService->error("You are not allowed to edit this comment", Response::HTTP_FORBIDDEN);
-        }
+//        // Vérifier que l'utilisateur est l'auteur du commentaire
+//        if ($comment->getAuthor() !== $this->getUser()) {
+//            return $apiResponseService->error("You are not allowed to edit this comment", Response::HTTP_FORBIDDEN);
+//        }
         $article = $articleRepository->find($updateCommentDTO->getArticleId());
         if ($article !== null) {
             $comment->setArticle($article);
@@ -170,10 +175,10 @@ class CommentApiController extends AbstractController
             return $apiResponseService->error("Comment not found", Response::HTTP_NOT_FOUND);
         }
 
-        // Vérifier que l'utilisateur est l'auteur du commentaire
-        if ($comment->getAuthor() !== $this->getUser()) {
-            return $apiResponseService->error("You are not allowed to delete this comment", Response::HTTP_FORBIDDEN);
-        }
+//        // Vérifier que l'utilisateur est l'auteur du commentaire
+//        if ($comment->getAuthor() !== $this->getUser()) {
+//            return $apiResponseService->error("You are not allowed to delete this comment", Response::HTTP_FORBIDDEN);
+//        }
         $entityManager->remove($comment);
         $entityManager->flush();
 
