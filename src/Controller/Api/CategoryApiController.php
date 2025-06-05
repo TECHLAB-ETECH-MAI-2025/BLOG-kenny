@@ -128,6 +128,9 @@ class CategoryApiController extends AbstractController
 
         if ($updateCategoryDTO->getName() !== null) {
             $category->setName($updateCategoryDTO->getName());
+        }
+
+        if ($updateCategoryDTO->getDescription() !== null) {
             $category->setDescription($updateCategoryDTO->getDescription());
         }
 
