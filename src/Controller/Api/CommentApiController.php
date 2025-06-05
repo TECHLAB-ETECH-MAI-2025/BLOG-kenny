@@ -143,9 +143,10 @@ class CommentApiController extends AbstractController
 //            return $apiResponseService->error("You are not allowed to edit this comment", Response::HTTP_FORBIDDEN);
 //        }
         $article = $articleRepository->find($updateCommentDTO->getArticleId());
-        if ($article !== null) {
-            $comment->setArticle($article);
+        if (!$article) {
+            return $apiResponseService->error("Article not found", Response::HTTP_NOT_FOUND);
         }
+        $comment->setArticle($article);
 
         if ($updateCommentDTO->getContent() !== null) {
             $comment->setContent($updateCommentDTO->getContent());
