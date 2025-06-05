@@ -164,7 +164,7 @@ class ArticleApiController extends AbstractController
 
         return $apiResponseService->success(
             new ArticleDTO($article),
-            "Article created successfully",
+            "Article updated successfully",
         );
     }
 
