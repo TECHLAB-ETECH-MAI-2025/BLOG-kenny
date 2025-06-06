@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\backOffice;
 
 use App\DTO\category\CategoryDTO;
 use App\DTO\category\CreateCategoryDTO;
@@ -135,6 +135,7 @@ class CategoryApiController extends AbstractController
         }
 
         $category->setUpdatedAt(new \DateTimeImmutable());
+        $category->setUpdatedBy($this->getUser());
 
         $entityManager->persist($category);
         $entityManager->flush();

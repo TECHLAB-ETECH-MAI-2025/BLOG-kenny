@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\backOffice;
 
 use App\DTO\comment\CommentDTO;
 use App\DTO\comment\CreateCommentDTO;
@@ -93,7 +93,7 @@ class CommentApiController extends AbstractController
         $comment = new Comment();
         $comment->setContent($createCommentDTO->getContent());
         $comment->setArticle($article);
-        //$comment->setAuthor($this->getUser());
+        $comment->setAuthor($this->getUser());
         $comment->setCreatedAt(new \DateTimeImmutable());
         $comment->setUpdatedAt(new \DateTimeImmutable());
 
@@ -138,7 +138,7 @@ class CommentApiController extends AbstractController
             return $apiResponseService->error("Comment not found", Response::HTTP_NOT_FOUND);
         }
 
-//        // Vérifier que l'utilisateur est l'auteur du commentaire
+        // Vérifier que l'utilisateur est l'auteur du commentaire
 //        if ($comment->getAuthor() !== $this->getUser()) {
 //            return $apiResponseService->error("You are not allowed to edit this comment", Response::HTTP_FORBIDDEN);
 //        }
@@ -153,6 +153,7 @@ class CommentApiController extends AbstractController
         }
 
         $comment->setUpdatedAt(new \DateTimeImmutable());
+        $comment->setUpdatedBy($this->getUser());
 
         $entityManager->persist($comment);
         $entityManager->flush();
