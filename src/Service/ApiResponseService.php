@@ -37,4 +37,5 @@ class ApiResponseService
             'errors' => $errors ?: null,
         ], $code);
     }
+
 }

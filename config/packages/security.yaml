@@ -24,8 +24,9 @@ security:
         lifetime: 604800
         path: /
         always_remember_me: true
-      custom_authenticator: App\Security\LoginFormAuthenticator
-
+      custom_authenticator:
+        - App\Security\LoginFormAuthenticator
+        - App\Security\ApiLoginAuthenticator
   access_control:
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/profile, roles: ROLE_USER }

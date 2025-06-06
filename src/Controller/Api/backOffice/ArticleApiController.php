@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\backOffice;
 
 use App\DTO\article\ArticleDTO;
 use App\DTO\article\CreateArticleDTO;
@@ -91,7 +91,7 @@ class ArticleApiController extends AbstractController
         $article->setCreatedAt(new \DateTimeImmutable());
         $article->setUpdatedAt(new \DateTimeImmutable());
         //$article->setUpdatedBy($this->getUser());
-        //$article->setAuthor($this->getUser());
+        $article->setAuthor($this->getUser());
 
         foreach ($createArticleDTO->getCategories() as $categoryId) {
             $category = $categoryRepository->find($categoryId);
