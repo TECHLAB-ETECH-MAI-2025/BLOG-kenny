@@ -76,6 +76,19 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findAllWithRelations(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.categories', 'c')
+            ->addSelect('c')
+            ->leftJoin('a.comments', 'cm')
+            ->addSelect('cm')
+            ->leftJoin('a.articleLikes', 'al')
+            ->addSelect('al')
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     // src/Repository/ArticleRepository.php
 
     public function findByIdWithRelations(int $id): ?Article

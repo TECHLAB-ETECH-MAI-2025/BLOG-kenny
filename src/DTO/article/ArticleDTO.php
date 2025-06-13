@@ -45,11 +45,16 @@ class ArticleDTO
             $this->setCategories($categories);
 
             $comments = [];
+
             foreach ($article->getComments() as $comment) {
                 $comments[] = [
                     'id' => $comment->getId(),
                     'content' => $comment->getContent(),
-                    'author' => $comment->getAuthor()?->getEmail(),
+                    'author' => [
+                        'email' => $comment->getAuthor()->getEmail(),
+                        'firstname' => $comment->getAuthor()->getFirstName(),
+                        'lastname' => $comment->getAuthor()->getLastName()
+                    ],
                     'createdAt' => $comment->getCreatedAt()->format('c'),
                 ];
             }
