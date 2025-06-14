@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreateCommentDTO
 {
     #[Assert\NotBlank(message: 'Le contenu est obligatoire')]
-    #[Assert\Length(min: 3, max: 1000, minMessage: 'Le contenu doit faire au moins {{ limit }} caractères', maxMessage: 'Le contenu ne peut pas dépasser {{ limit }} caractères')]
+    #[Assert\Length(min: 0, max: 1000, minMessage: 'Le contenu doit faire au moins {{ limit }} caractères', maxMessage: 'Le contenu ne peut pas dépasser {{ limit }} caractères')]
     private string $content;
 
     #[Assert\NotBlank(message: "L'article est obligatoire")]

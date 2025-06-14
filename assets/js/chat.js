@@ -191,7 +191,6 @@ $(document).ready(function () {
         this.style.height = (this.scrollHeight) + 'px';
     });
 
-    // Mettre à jour la fonction subscribeToMessages pour utiliser appendMessage
     function subscribeToMessages(userConnectedId, userChooseId) {
         if (!chatId) {
             return;
@@ -208,7 +207,6 @@ $(document).ready(function () {
 
             eventSource = new EventSource(url.toString());
             eventSource.onmessage = function (event) {
-                console.log("event aiii")
                 try {
                     let data = JSON.parse(event.data);
                     data = data.data

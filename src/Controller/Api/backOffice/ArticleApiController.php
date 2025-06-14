@@ -6,6 +6,8 @@ use App\DTO\article\ArticleDTO;
 use App\DTO\article\CreateArticleDTO;
 use App\DTO\article\UpdateArticleDTO;
 use App\Entity\Article;
+use App\Entity\ArticleLike;
+use App\Repository\ArticleLikeRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use App\Service\ApiResponseService;
@@ -31,7 +33,7 @@ class ArticleApiController extends AbstractController
         $offset = ($page - 1) * $limit;
 
         $total = $articleRepository->count([]);
-        if ($all){
+        if ($all) {
             $articles = $articleRepository->findBy([], ['createdAt' => 'DESC']);
         } else {
             $articles = $articleRepository->findBy([], ['createdAt' => 'DESC'], $limit, $offset);
@@ -68,7 +70,7 @@ class ArticleApiController extends AbstractController
         ApiResponseService     $apiResponseService,
         Request                $request,
         EntityManagerInterface $entityManager,
-        CategoryRepository $categoryRepository,
+        CategoryRepository     $categoryRepository,
         SerializerInterface    $serializer,
         ValidatorInterface     $validator
     ): JsonResponse
@@ -110,13 +112,13 @@ class ArticleApiController extends AbstractController
     }
 
     #[Route('/{id}', methods: ['PUT'])]
-    public function  edit(
-        int $id,
+    public function edit(
+        int                    $id,
         ApiResponseService     $apiResponseService,
         Request                $request,
         EntityManagerInterface $entityManager,
-        CategoryRepository $categoryRepository,
-        ArticleRepository $articleRepository,
+        CategoryRepository     $categoryRepository,
+        ArticleRepository      $articleRepository,
         SerializerInterface    $serializer,
         ValidatorInterface     $validator
     ): JsonResponse
@@ -171,7 +173,7 @@ class ArticleApiController extends AbstractController
     }
 
     #[Route('/{id}', methods: ['DELETE'])]
-    public function delete(int $id, ApiResponseService $apiResponseService,ArticleRepository $articleRepository,EntityManagerInterface $entityManager): JsonResponse
+    public function delete(int $id, ApiResponseService $apiResponseService, ArticleRepository $articleRepository, EntityManagerInterface $entityManager): JsonResponse
     {
         $article = $articleRepository->find($id);
         if (!$article) {
@@ -185,7 +187,36 @@ class ArticleApiController extends AbstractController
         );
     }
 
+    #[Route('/{id}/like', methods: ['POST'])]
+    public function toggleLike(ApiResponseService $apiResponseService,Article $article, EntityManagerInterface $entityManager, ArticleLikeRepository $likeRepository): JsonResponse
+    {
+        $user = $this->getUser();
+        // On vérifie si l'utilisateur a déjà liké
+        $like = $likeRepository->findOneBy([
+            'article' => $article,
+            'author' => $user
+        ]);
 
+        if ($like) {
+            // Si oui, on retire le like
+            $entityManager->remove($like);
+            $entityManager->flush();
+            return $apiResponseService->success(new ArticleDTO($article),"like retirée");
+
+        }
+
+        // Si non, on ajoute le like
+        $like = new ArticleLike();
+        $like->setArticle($article);
+        $like->setAuthor($user);
+        $like->setCreatedAt(new \DateTimeImmutable());
+
+        $entityManager->persist($like);
+        $entityManager->flush();
+
+        return $apiResponseService->success(new ArticleDTO($article),"article like");
+
+    }
 
 
 }
