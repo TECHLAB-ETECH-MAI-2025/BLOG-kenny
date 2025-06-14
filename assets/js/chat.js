@@ -1,4 +1,3 @@
-// Fonction pour formater les dates de manière conviviale
 function formatMessageDate(dateStr) {
     const date = new Date(dateStr);
     const now = new Date();
@@ -45,6 +44,7 @@ let chatId = null;
 let lastDate = null;
 
 $(document).ready(function () {
+    console.log("ato aii")
     $('.user-item').click(function () {
         userChooseId = $(this).data('user-choose');
         $('.user-item').removeClass('active');
@@ -138,7 +138,6 @@ $(document).ready(function () {
                 $('#messages-container').html(response);
                 scrollToBottom();
 
-                // Réinitialiser lastDate après le chargement
                 const lastMessage = $('#messages-container .message').last();
                 if (lastMessage.length) {
                     const dateStr = lastMessage.data('date');
@@ -192,7 +191,6 @@ $(document).ready(function () {
         this.style.height = (this.scrollHeight) + 'px';
     });
 
-    // Mettre à jour la fonction subscribeToMessages pour utiliser appendMessage
     function subscribeToMessages(userConnectedId, userChooseId) {
         if (!chatId) {
             return;
@@ -208,10 +206,10 @@ $(document).ready(function () {
             url.searchParams.append('jwt', data.token);
 
             eventSource = new EventSource(url.toString());
-
             eventSource.onmessage = function (event) {
                 try {
-                    const data = JSON.parse(event.data);
+                    let data = JSON.parse(event.data);
+                    data = data.data
                     if (data && data.userId) {
                         if (parseInt(data.userId) === parseInt(userChooseId) ||
                             parseInt(data.userId) === parseInt(userConnectedId)) {

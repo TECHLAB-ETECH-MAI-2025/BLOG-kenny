@@ -5,8 +5,8 @@
             <div class="message-time">{{ message.createdAt|date('H:i') }}</div>
         </div>
     {% else %}
-        <div class="text-center text-muted">
-            Aucun message avec {{ receiver.email }}. Commencez la conversation !
-        </div>
+{#        <div class="text-center text-muted" >#}
+{#            Aucun message avec {{ receiver.email }}. Commencez la conversation !#}
+{#        </div>#}
     {% endfor %}
 {% endif %}

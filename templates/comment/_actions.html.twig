@@ -1,6 +1,6 @@
 {% block comment_actions %}
 <div class="btn-group btn-group-sm">
-    <a href="{{ path('app_article_show', {id: comment.article.id}) }}" class="btn btn-info" title="Voir l'article" data-bs-toggle="tooltip">
+    <a href="{{ path('app_comment_show', {id: comment.article.id}) }}" class="btn btn-info" title="Voir l'article" data-bs-toggle="tooltip">
         <i class="fas fa-eye"></i>
     </a>
     {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and app.user == comment.author) %}

@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Article
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -43,6 +44,9 @@ class Article
 
     #[ORM\OneToMany(targetEntity: ArticleLike::class, mappedBy: 'article')]
     private Collection $articleLikes;
+
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $isDeleted = false;
 
     public function __construct()
     {
@@ -214,6 +218,18 @@ class Article
                 $articleLike->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): static
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

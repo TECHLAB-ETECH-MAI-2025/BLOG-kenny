@@ -100,8 +100,3 @@ select.form-control:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
-
-/* Ajustement de la hauteur des selects */
-select.form-control:not([multiple]) {
-  height: calc(2.5rem + 2px);
-}
